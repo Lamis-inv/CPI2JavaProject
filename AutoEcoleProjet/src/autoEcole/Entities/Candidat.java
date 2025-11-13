@@ -21,5 +21,70 @@ public class Candidat {
 		this.nbSeanceConduite = nbSeanceConduite;
 		
 	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getCin() {
+		return cin;
+	}
+
+	public void setCin(String cin) {
+		this.cin = cin;
+	}
+
+	public String getTypePermis() {
+		return typePermis;
+	}
+
+	public void setTypePermis(String typePermis) {
+		this.typePermis = typePermis;
+	}
+
+	public int getNbSeanceCode() {
+		return nbSeanceCode;
+	}
+
+	public void setNbSeanceCode(int nbSeanceCode) {
+		this.nbSeanceCode = nbSeanceCode;
+	}
+
+	public int getNbSeanceConduite() {
+		return nbSeanceConduite;
+	}
+
+	public void setNbSeanceConduite(int nbSeanceConduite) {
+		this.nbSeanceConduite = nbSeanceConduite;
+	}
+	
 		
 }
