@@ -1,7 +1,6 @@
-package autoEcole.Candidat;
+package autoEcole.Entities;
 
-public class Candidat {
-	
+public class Candidat {	
 	private String nom;
 	private String prenom;
 	private String adresse;
@@ -18,5 +17,5 @@ public class Candidat {
 		this.cin = cin;
 		this.typePermis = typePermis;
 	}
-	
+		
 }
