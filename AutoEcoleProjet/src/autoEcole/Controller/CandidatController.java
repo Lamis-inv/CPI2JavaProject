@@ -2,7 +2,7 @@ package autoEcole.Controller;
 
 import autoEcole.Entities.Candidat;
 import autoEcole.Service.CandidatService;
-import autoEcole.UI.CandidatUI;
+
 
 public class CandidatController {
 	
