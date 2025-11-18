@@ -18,6 +18,6 @@ public class CandidatService {
 	}
 	
 	public void updateCandidat(Candidat c) {
-		cRepository.update(c);
+		cRepository.update(null, c);
 	}
 }
