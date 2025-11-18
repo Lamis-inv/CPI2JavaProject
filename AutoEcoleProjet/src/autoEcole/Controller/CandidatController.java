@@ -7,10 +7,17 @@ import autoEcole.UI.CandidatUI;
 public class CandidatController {
 	
 	CandidatService candidatService = new CandidatService();
-	CandidatUI candidatUI = new CandidatUI();
 	
-	public void init() {
-		Candidat c =CandidatUI.saisir();
+	public void add(Candidat c) {
 		candidatService.addCandidat(c);
+	}
+	public void findAll() {
+		candidatService.findAllCandidat();
+	}
+	public void update(Candidat c) {
+		candidatService.updateCandidat(c);
+	}
+	public void delete(String cin) {
+		
 	}
 }
