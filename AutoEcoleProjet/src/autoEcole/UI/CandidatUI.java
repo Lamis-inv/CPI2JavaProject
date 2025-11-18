@@ -34,7 +34,7 @@ public class CandidatUI {
 				break;
 			}
 			case 3: {
-				//updateCandidat();
+				//controller.update();
 				break;
 			}
 			case 4: {
@@ -63,23 +63,29 @@ public class CandidatUI {
 		String adr = scanner.nextLine();
 		System.out.println("saisir votre Tel");
 		String tel = scanner.nextLine();
+		
 		System.out.println("saisir votre CIN");
 		String cin = scanner.nextLine();
+		while(cin.length()!=8) {
+			System.out.println("saisir votre CIN");
+			cin = scanner.next();
+		}
+		int c = Integer.parseInt(cin);
 		System.out.println("saisir votre Type permit");
 		String permit = scanner.nextLine();
-		controller.add(new Candidat(nom, pre, adr, tel, cin, permit, 0, 0));
+		controller.add(new Candidat(nom, pre, adr, tel, c, permit, 0, 0));
 		
 	}
-	private void dupdateCandidate() {
+	private void updateCandidate() {
 		Scanner scanner = new Scanner(System.in);
         System.out.print("Enter CIN to updates: ");
-        String cin = scanner.nextLine();
+        int cin = scanner.nextInt();
         controller.delete(cin);
     }
 	private void deleteCandidate() {
 		Scanner scanner = new Scanner(System.in);
         System.out.print("Enter CIN to delete: ");
-        String cin = scanner.nextLine();
+        int cin = scanner.nextInt();
         controller.delete(cin);
     }
 	

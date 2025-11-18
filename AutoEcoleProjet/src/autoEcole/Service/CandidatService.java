@@ -1,6 +1,5 @@
 package autoEcole.Service;
 
-import java.util.List;
 
 import autoEcole.Entities.Candidat;
 import autoEcole.Repository.CandidatRepository;
@@ -17,7 +16,11 @@ public class CandidatService {
 		 cRepository.findAll();
 	}
 	
-	public void updateCandidat(Candidat c) {
-		cRepository.update(null, c);
+	public void updateCandidat(int cin,Candidat c) {
+		cRepository.update(cin, c);
+	}
+	
+	public void deleteCandidat(int cin) {
+		cRepository.delete(cin);
 	}
 }

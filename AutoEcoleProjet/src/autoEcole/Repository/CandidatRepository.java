@@ -21,9 +21,8 @@ public class CandidatRepository {
 	public void add(Candidat c) {
 		Candidat[] candidats = getAll();
 
-        // Optional: check if CIN already exists
 		for (Candidat ca : candidats) {
-		    if (ca.getCin().equals(c.getCin())) {
+		    if (ca.getCin()==c.getCin()) {
 		        System.out.println("Candidate with CIN " + c.getCin() + " already exists!");
 		        return;
 		    }
@@ -68,10 +67,10 @@ public class CandidatRepository {
 	    }
 	}
 	
-	public void update(String cin,Candidat updated) {
+	public void update(int cin,Candidat updated) {
         Candidat[] tab = getAll();
         for (int i = 0; i < tab.length; i++) {
-        	if (tab[i].getCin().equals(cin)) {
+        	if (tab[i].getCin()==cin) {
                 tab[i] = updated; 
                 saveAll(tab);
                 return;
@@ -80,12 +79,12 @@ public class CandidatRepository {
         System.out.println("Candidate not found!");
     }
 	
-	public void delete(String cin) {
+	public void delete(int cin) {
 	    Candidat[] old = getAll();
 	    int count = 0;
 
 	    for (Candidat c : old) {
-	        if (!c.getCin().equals(cin)) {
+	        if (!(c.getCin()==cin)) {
 	            count++;
 	        }
 	    }
@@ -99,7 +98,7 @@ public class CandidatRepository {
 	    int index = 0;
 
 	    for (Candidat c : old) {
-	        if (!c.getCin().equals(cin)) {
+	        if (!(c.getCin()==cin)) {
 	            newTab[index++] = c;
 	        }
 	    }

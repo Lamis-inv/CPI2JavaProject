@@ -5,12 +5,12 @@ public class Candidat {
 	private String prenom;
 	private String adresse;
 	private String telephone;
-	private String cin;
+	private int cin;
 	private String typePermis;
 	private int nbSeanceCode;
 	private int nbSeanceConduite;
 	
-	public Candidat(String nom, String prenom, String adresse, String telephone, String cin, String typePermis, int nbSeanceCode, int nbSeanceConduite ) {
+	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, String typePermis, int nbSeanceCode, int nbSeanceConduite ) {
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
@@ -54,11 +54,11 @@ public class Candidat {
 		this.telephone = telephone;
 	}
 
-	public String getCin() {
+	public int getCin() {
 		return cin;
 	}
 
-	public void setCin(String cin) {
+	public void setCin(int cin) {
 		this.cin = cin;
 	}
 

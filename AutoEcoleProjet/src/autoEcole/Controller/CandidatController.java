@@ -14,10 +14,10 @@ public class CandidatController {
 	public void findAll() {
 		candidatService.findAllCandidat();
 	}
-	public void update(Candidat c) {
-		candidatService.updateCandidat(c);
+	public void update(int cin,Candidat c) {
+		candidatService.updateCandidat(cin,c);
 	}
-	public void delete(String cin) {
-		
+	public void delete(int cin) {
+		candidatService.deleteCandidat(cin);
 	}
 }
