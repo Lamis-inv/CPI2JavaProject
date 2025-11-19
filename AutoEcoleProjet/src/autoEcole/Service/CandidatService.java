@@ -19,8 +19,14 @@ public class CandidatService {
 	public void updateCandidat(int cin,Candidat c) {
 		cRepository.update(cin, c);
 	}
-	
+	public Candidat getByCin(int cin) {
+	    return cRepository.getByCin(cin);
+	}
 	public void deleteCandidat(int cin) {
 		cRepository.delete(cin);
+	}
+	
+	public void findByCin(int cin) {
+		cRepository.findByCin(cin);
 	}
 }

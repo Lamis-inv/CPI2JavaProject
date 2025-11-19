@@ -17,7 +17,13 @@ public class CandidatController {
 	public void update(int cin,Candidat c) {
 		candidatService.updateCandidat(cin,c);
 	}
+	public Candidat getByCin(int cin) {
+	    return candidatService.getByCin(cin);
+	}
 	public void delete(int cin) {
 		candidatService.deleteCandidat(cin);
+	}
+	public void findByCin(int cin) {
+		candidatService.findByCin(cin);
 	}
 }

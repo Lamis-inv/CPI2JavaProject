@@ -105,6 +105,27 @@ public class CandidatRepository {
 
 	    saveAll(newTab);
 	}
+	public void findByCin(int cin) {
+	    Candidat[] candidats = getAll();
+
+	    for (Candidat c : candidats) {
+	        if (c.getCin() == cin) {
+	            System.out.println("-------------------------");
+	            System.out.println("Nom: " + c.getNom());
+	            System.out.println("Prenom: " + c.getPrenom());
+	            System.out.println("Adresse: " + c.getAdresse());
+	            System.out.println("Tel: " + c.getTelephone());
+	            System.out.println("CIN: " + c.getCin());
+	            System.out.println("Type Permis: " + c.getTypePermis());
+	            System.out.println("Nb Seances Code: " + c.getNbSeanceCode());
+	            System.out.println("Nb Seances Conduite: " + c.getNbSeanceConduite());
+	            return; // Stop after printing one
+	        }
+	    }
+
+	    System.out.println("Candidate with CIN " + cin + " not found!");
+	}
+
 	public void saveAll(Candidat[] candidats) {
 	    try (FileWriter writer = new FileWriter(filePath)) {
 	        gson.toJson(candidats, writer);
@@ -112,5 +133,13 @@ public class CandidatRepository {
 	        e.printStackTrace();
 	    }
 	}
+	public Candidat getByCin(int cin) {
+	    Candidat[] tab = getAll();
+	    for (Candidat c : tab) {
+	        if (c.getCin() == cin) return c;
+	    }
+	    return null;
+	}
+
 
 }
