@@ -18,8 +18,8 @@ import autoEcole.Entities.Moniteur;
 			Moniteur[] moniteurs = getAll();
 	
 			for (Moniteur ca : moniteurs) {
-			    if (ca.getId()== ca.getId() ) {
-			        System.out.println("Candidate with CIN " + m.getId() + " already exists!");
+			    if (ca.getId()== m.getId() ) {
+			        System.out.println("Moniteur with ID " + m.getId() + " already exists!");
 			        return;
 			    }
 			}
@@ -43,7 +43,7 @@ import autoEcole.Entities.Moniteur;
 	    Moniteur[] moniteurs = getAll();
 
 	    if (moniteurs.length==0) {
-	        System.out.println("No candidates found.");
+	        System.out.println("No Moniteurs found.");
 	        return;
 	    }
 
@@ -100,6 +100,28 @@ import autoEcole.Entities.Moniteur;
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	}
+    public void findById(int id) {
+	    Moniteur[] moniteurs = getAll();
+
+	    for (Moniteur m : moniteurs) {
+	        if (m.getId() == id) {
+	        	System.out.println("-------------------------");
+		        System.out.println("Nom: " + m.getNom());	      
+		        System.out.println("ID: " + m.getId());
+		        System.out.println("Disponibilite: " + m.isDisponible());
+		        System.out.println("Nb Heures Travaillees: " + m.getNbHeuresTravaillees());
+		        return;
+		    }
+	    }
+	    System.out.println("Candidate with CIN " + id + " not found!");
+	}
+    public Moniteur getById(int id) {
+	    Moniteur[] tab = getAll();
+	    for (Moniteur c : tab) {
+	        if (c.getId() == id) return c;
+	    }
+	    return null;
 	}
     
 }
