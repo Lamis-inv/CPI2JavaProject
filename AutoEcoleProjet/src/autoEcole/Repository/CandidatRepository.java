@@ -49,7 +49,7 @@ public class CandidatRepository {
 	public void findAll() {
 	    Candidat[] candidats = getAll(); // get the current list from JSON
 
-	    if (candidats.length==0) {
+	    if (candidats.length == 0) {
 	        System.out.println("No candidates found.");
 	        return;
 	    }
@@ -62,11 +62,18 @@ public class CandidatRepository {
 	        System.out.println("Tel: " + c.getTelephone());
 	        System.out.println("CIN: " + c.getCin());
 	        System.out.println("Type Permis: " + c.getTypePermis());
-	        System.out.println("Nb Seances Code: " + c.getNbSeanceCode());
-	        System.out.println("Nb Seances Conduite: " + c.getNbSeanceConduite());
+	        System.out.println("Total Price: " + c.getTotalPrice());
+	        System.out.println("Paid Amount: " + c.getPaidAmount());
+	        System.out.println("Remaining: " + c.getRemainingAmount());
+	        System.out.println("Seances:");
+	        if (c.getSeances() != null) {
+	            for (autoEcole.Entities.Seance s : c.getSeances()) {
+	                System.out.println("  - " + s.getType() + " | " + s.getDate() + " " + s.getHeure() + " | Prix: " + s.getPrix());
+	            }
+	        }
 	    }
 	}
-	
+
 	public void update(int cin,Candidat updated) {
         Candidat[] tab = getAll();
         for (int i = 0; i < tab.length; i++) {
@@ -106,25 +113,31 @@ public class CandidatRepository {
 	    saveAll(newTab);
 	}
 	public void findByCin(int cin) {
-	    Candidat[] candidats = getAll();
+	    Candidat c = getByCin(cin);
 
-	    for (Candidat c : candidats) {
-	        if (c.getCin() == cin) {
-	            System.out.println("-------------------------");
-	            System.out.println("Nom: " + c.getNom());
-	            System.out.println("Prenom: " + c.getPrenom());
-	            System.out.println("Adresse: " + c.getAdresse());
-	            System.out.println("Tel: " + c.getTelephone());
-	            System.out.println("CIN: " + c.getCin());
-	            System.out.println("Type Permis: " + c.getTypePermis());
-	            System.out.println("Nb Seances Code: " + c.getNbSeanceCode());
-	            System.out.println("Nb Seances Conduite: " + c.getNbSeanceConduite());
-	            return; // Stop after printing one
-	        }
+	    if (c == null) {
+	        System.out.println("Candidate with CIN " + cin + " not found!");
+	        return;
 	    }
 
-	    System.out.println("Candidate with CIN " + cin + " not found!");
+	    System.out.println("-------------------------");
+	    System.out.println("Nom: " + c.getNom());
+	    System.out.println("Prenom: " + c.getPrenom());
+	    System.out.println("Adresse: " + c.getAdresse());
+	    System.out.println("Tel: " + c.getTelephone());
+	    System.out.println("CIN: " + c.getCin());
+	    System.out.println("Type Permis: " + c.getTypePermis());
+	    System.out.println("Total Price: " + c.getTotalPrice());
+	    System.out.println("Paid Amount: " + c.getPaidAmount());
+	    System.out.println("Remaining: " + c.getRemainingAmount());
+	    System.out.println("Seances:");
+	    if (c.getSeances() != null) {
+	        for (autoEcole.Entities.Seance s : c.getSeances()) {
+	            System.out.println("  - " + s.getType() + " | " + s.getDate() + " " + s.getHeure() + " | Prix: " + s.getPrix());
+	        }
+	    }
 	}
+
 
 	public void saveAll(Candidat[] candidats) {
 	    try (FileWriter writer = new FileWriter(filePath)) {
