@@ -6,13 +6,19 @@ public class Moniteur {
 	private boolean isDisponible;
 	private int nbHeuresTravaillees;	
 	
+	
 	public Moniteur(int id, String nom, boolean isDisponible, int nbHeuresTravaillees) {
 		this.id = id;
 		this.nom = nom;
 		this.isDisponible = isDisponible;
 		this.nbHeuresTravaillees = nbHeuresTravaillees;
 	}
-	
+	public Moniteur(int id, String nom) {
+		this.id = id;
+		this.nom = nom;
+		this.isDisponible = true;
+		this.nbHeuresTravaillees = 0;
+	}
 	
 	public int getId() {
 		return id;

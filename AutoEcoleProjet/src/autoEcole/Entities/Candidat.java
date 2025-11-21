@@ -6,7 +6,7 @@ public class Candidat {
 	private String adresse;
 	private String telephone;
 	private int cin;
-	private String typePermis;
+	private TypesPermit typePermis;
 	private int nbSeanceCode;
 	private int nbSeanceConduite;
 	private double totalPrice;
@@ -14,20 +14,7 @@ public class Candidat {
     private Seance[] seances;
     
     
-	Candidat(String nom, String prenom, String adresse, String telephone, int cin, String typePermis, int nbSeanceCode,
-			int nbSeanceConduite, double totalPrice, double paidAmount, Seance[] seances) {
-		this.nom = nom;
-		this.prenom = prenom;
-		this.adresse = adresse;
-		this.telephone = telephone;
-		this.cin = cin;
-		this.typePermis = typePermis;
-		this.nbSeanceCode = nbSeanceCode;
-		this.nbSeanceConduite = nbSeanceConduite;
-		this.totalPrice = totalPrice;
-		this.paidAmount = paidAmount;
-		this.seances = new Seance[0];
-	}
+	
 	public String getNom() {
 		return nom;
 	}
@@ -58,11 +45,42 @@ public class Candidat {
 	public void setCin(int cin) {
 		this.cin = cin;
 	}
-	public String getTypePermis() {
+	
+	public TypesPermit getTypePermis() {
 		return typePermis;
 	}
-	public void setTypePermis(String typePermis) {
+	public void setTypePermis(TypesPermit typePermis) {
 		this.typePermis = typePermis;
+	}
+	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, TypesPermit typePermis,
+			int nbSeanceCode, int nbSeanceConduite, double totalPrice, double paidAmount, Seance[] seances) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.cin = cin;
+		this.typePermis = typePermis;
+		this.nbSeanceCode = nbSeanceCode;
+		this.nbSeanceConduite = nbSeanceConduite;
+		this.totalPrice = totalPrice;
+		this.paidAmount = paidAmount;
+		this.seances = seances;
+	}
+	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, TypesPermit typePermis,
+			 double totalPrice, double paidAmount, Seance[] seances) {
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.cin = cin;
+		this.typePermis = typePermis;
+		this.nbSeanceCode = 0;
+		this.nbSeanceConduite = 0;
+		this.totalPrice = totalPrice;
+		this.paidAmount = paidAmount;
+		this.seances = seances;
 	}
 	public int getNbSeanceCode() {
 		return nbSeanceCode;
@@ -77,11 +95,7 @@ public class Candidat {
 		this.nbSeanceConduite = nbSeanceConduite;
 	}
 	public double getTotalPrice() {
-        double total = 0;
-        for (Seance s : seances) {
-            if (s != null) total += s.getPrix();
-        }
-        return total;
+        return getNbSeanceCode()*50+getNbSeanceConduite()*100;
     }
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;

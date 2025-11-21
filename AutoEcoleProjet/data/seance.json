@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "type": "code",
+    "date": "2025-11-22",
+    "heure": "10:00:00",
+    "moniteur": {
+      "id": 144445,
+      "nom": "Lee",
+      "isDisponible": false,
+      "nbHeuresTravaillees": 1
+    },
+    "candidat": {
+      "nom": "Bejaoui",
+      "prenom": "Lamis",
+      "adresse": "20St",
+      "telephone": "14589658",
+      "cin": 32145697,
+      "typePermis": "A",
+      "nbSeanceCode": 1,
+      "nbSeanceConduite": 0,
+      "totalPrice": 0.0,
+      "paidAmount": 0.0,
+      "seances": []
+    },
+    "prix": 50.0
+  },
+  {
+    "id": 2,
+    "type": "conduite",
+    "date": "2025-11-23",
+    "heure": "09:00:00",
+    "moniteur": {
+      "id": 123588,
+      "nom": "Kim",
+      "isDisponible": false,
+      "nbHeuresTravaillees": 2
+    },
+    "candidat": {
+      "nom": "Bejaoui",
+      "prenom": "Lamis",
+      "adresse": "20St",
+      "telephone": "14589658",
+      "cin": 32145697,
+      "typePermis": "A",
+      "nbSeanceCode": 0,
+      "nbSeanceConduite": 1,
+      "totalPrice": 50.0,
+      "paidAmount": 0.0,
+      "seances": []
+    },
+    "prix": 100.0
+  }
+]

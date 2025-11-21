@@ -4,18 +4,36 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import autoEcole.Entities.Candidat;
+import autoEcole.Entities.Seance;
 
 public class CandidatRepository {
+	private final Gson gson = new GsonBuilder()
+	        // LocalDate
+	        .registerTypeAdapter(LocalDate.class, (com.google.gson.JsonSerializer<LocalDate>) 
+	            (src, typeOfSrc, context) -> new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE)))
+	        .registerTypeAdapter(LocalDate.class, (com.google.gson.JsonDeserializer<LocalDate>) 
+	            (json, type, context) -> LocalDate.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE))
+	        // LocalTime
+	        .registerTypeAdapter(LocalTime.class, (com.google.gson.JsonSerializer<LocalTime>) 
+	            (src, typeOfSrc, context) -> new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_TIME)))
+	        .registerTypeAdapter(LocalTime.class, (com.google.gson.JsonDeserializer<LocalTime>) 
+	            (json, type, context) -> LocalTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_TIME))
+	        .setPrettyPrinting()
+	        .create();
+	
 	private final String filePath = "data/candidat.json";
-    private final Gson gson = new Gson();
 
 	
 	public void add(Candidat c) {
@@ -66,9 +84,12 @@ public class CandidatRepository {
 	        System.out.println("Paid Amount: " + c.getPaidAmount());
 	        System.out.println("Remaining: " + c.getRemainingAmount());
 	        System.out.println("Seances:");
-	        if (c.getSeances() != null) {
-	            for (autoEcole.Entities.Seance s : c.getSeances()) {
-	                System.out.println("  - " + s.getType() + " | " + s.getDate() + " " + s.getHeure() + " | Prix: " + s.getPrix());
+	        SeanceRepository s =new SeanceRepository();
+	        Seance[] tab=s.getAll();
+	        for (int i = 0; i < tab.length; i++) {
+	        	if (tab[i].getCandidat().getCin()==c.getCin()) {
+	        		System.out.println("  - " + tab[i].getType() + " | " + tab[i].getDate()
+	        		+ " " + tab[i].getHeure() + " | Prix: " + tab[i].getPrix());
 	            }
 	        }
 	    }

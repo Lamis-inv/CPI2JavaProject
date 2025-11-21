@@ -59,21 +59,41 @@ public class MoniteurUI {
 	}
 	
 	public void saisir() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("saisir votre Nom:");
-		String nom = scanner.nextLine();
-		System.out.println("saisir votre ID:");
-		int id = scanner.nextInt();
-		System.out.println("saisir votre Disponibilite");
-		boolean dis = scanner.hasNextBoolean();
-		
-		System.out.println("saisir votre Tel");
-		String tel = scanner.nextLine();
-		
-		
-		controller.add(new Moniteur(id, nom, dis, 0));
-		
+	    Scanner scanner = new Scanner(System.in);
+
+	    System.out.print("Enter Nom: ");
+	    String nom = scanner.nextLine();
+
+	    int id;
+	    while (true) {
+	        System.out.print("Enter ID (integer): ");
+	        if (scanner.hasNextInt()) {
+	            id = scanner.nextInt();
+	            scanner.nextLine(); // consume newline
+	            break;
+	        } else {
+	            System.out.println("Invalid input! Please enter an integer for ID.");
+	            scanner.nextLine();
+	        }
+	    }
+
+	    boolean dispo;
+	    while (true) {
+	        System.out.print("Is Disponible (true/false): ");
+	        if (scanner.hasNextBoolean()) {
+	            dispo = scanner.nextBoolean();
+	            scanner.nextLine(); // consume newline
+	            break;
+	        } else {
+	            System.out.println("Invalid input! Please enter true or false.");
+	            scanner.nextLine();
+	        }
+	    }
+
+	    Moniteur m = new Moniteur(id, nom, dispo,0);
+	    controller.add(m); // le controller appellera la repo
 	}
+
 
 	private void deleteMoniteur() {
 		Scanner scanner = new Scanner(System.in);
@@ -87,62 +107,53 @@ public class MoniteurUI {
         int id = scanner.nextInt();
         controller.findByCin(id);
     }
-	private void updateMoniteur() {
-	    Scanner scanner = new Scanner(System.in);
-	    System.out.print("Enter ID of Moniteur to update: ");
-	    int id = scanner.nextInt();
-	    scanner.nextLine();
+    private void updateMoniteur() {
+    	Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter ID of Moniteur to update: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
-	    // Get existing candidate
-	    Moniteur old = controller.getById(id);
-	    if (old == null) {
-	        System.out.println("Moniteur not found!");
-	        return;
-	    }
+        Moniteur old = controller.getById(id);
+        if (old == null) {
+            System.out.println("Moniteur not found!");
+            return;
+        }
 
-	    int choice;
-	    do {
-	        System.out.println("\n===== Update Candidate =====");
-	        System.out.println("1. Update Name");
-	        System.out.println("2. Update ID");
-	        System.out.println("3. Update Disponibilite");
-	        System.out.println("4. Update Téléphone");
+        boolean updating = true;
+        while (updating) {
+            System.out.println("\n===== Update Moniteur =====");
+            System.out.println("1. Update Name");
+            System.out.println("2. Update ID");
+            System.out.println("3. Update Disponibilite");
+            System.out.println("0. Save and Exit");
+            System.out.print("Choose: ");
 
-	        System.out.println("0. Save and Exit");
-	        System.out.print("Choose: ");
+            int choice = scanner.hasNextInt() ? scanner.nextInt() : -1;
+            scanner.nextLine(); // consume newline
 
-	        choice = scanner.nextInt();
-	        scanner.nextLine(); // consume newline
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter new Name: ");
+                    old.setNom(scanner.nextLine());
+                }
+                case 2 -> {
+                    System.out.print("Enter new ID: ");
+                    old.setId(scanner.nextInt());
+                    scanner.nextLine();
+                }
+                case 3 -> {
+                    System.out.print("Enter Disponibilite (true/false): ");
+                    old.setDisponible(scanner.nextBoolean());
+                    scanner.nextLine();
+                }
+                case 0 -> {
+                    controller.update(id, old);
+                    System.out.println("Changes saved successfully!");
+                    updating = false;
+                }
+                default -> System.out.println("Invalid choice!");
+            }
+        }
 
-	        switch (choice) {
-	            case 1:
-	                System.out.print("Enter new name: ");
-	                old.setNom(scanner.nextLine());
-	                break;
-
-	            case 2:
-	                System.out.print("Enter new ID: ");
-	                old.setId(scanner.nextInt());
-	                break;
-
-	            case 3:
-	                System.out.print("Enter Disponibilite: ");
-	                old.setDisponible(scanner.hasNextBoolean());
-	                break;
-
-	            case 4:
-	                System.out.print("Enter new telephone: ");
-	                //old.setTelephone(scanner.nextLine());
-	                break;
-	            case 0:
-	                controller.update(id, old);
-	                System.out.println("Changes saved successfully!");
-	                break;
-
-	            default:
-	                System.out.println("Invalid choice!");
-	        }
-
-	    } while (choice != 0);
-	}
+    }
 }

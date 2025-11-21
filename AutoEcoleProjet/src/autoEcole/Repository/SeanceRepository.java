@@ -2,9 +2,13 @@ package autoEcole.Repository;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import autoEcole.Entities.Candidat;
 import autoEcole.Entities.Seance;
@@ -12,7 +16,20 @@ import autoEcole.Entities.Seance;
 public class SeanceRepository {
 
 	private final String filePath = "data/seance.json";
-    private final Gson gson = new Gson();
+	private final Gson gson = new GsonBuilder()
+	        // LocalDate
+	        .registerTypeAdapter(LocalDate.class, (com.google.gson.JsonSerializer<LocalDate>) 
+	            (src, typeOfSrc, context) -> new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE)))
+	        .registerTypeAdapter(LocalDate.class, (com.google.gson.JsonDeserializer<LocalDate>) 
+	            (json, type, context) -> LocalDate.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_DATE))
+	        // LocalTime
+	        .registerTypeAdapter(LocalTime.class, (com.google.gson.JsonSerializer<LocalTime>) 
+	            (src, typeOfSrc, context) -> new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_TIME)))
+	        .registerTypeAdapter(LocalTime.class, (com.google.gson.JsonDeserializer<LocalTime>) 
+	            (json, type, context) -> LocalTime.parse(json.getAsString(), DateTimeFormatter.ISO_LOCAL_TIME))
+	        .setPrettyPrinting()
+	        .create();
+    
     
     public void add(Seance s) {
     	Seance[] seances = getAll();
@@ -54,9 +71,11 @@ public class SeanceRepository {
 	        System.out.println("Type: " + c.getType());
 	        System.out.println("Date: " + c.getDate());
 	        System.out.println("Heure: " + c.getHeure());
-	        System.out.println("Moniteur: " + c.getMoniteur());
-	        System.out.println("Candidat: " + c.getCandidat());
-	        System.out.println("Vehicule: " + c.getVehicule());
+	        System.out.println("Moniteur: " + c.getMoniteur().getNom());
+	        System.out.println("Candidat: " + c.getCandidat().getNom()+" "+c.getCandidat().getPrenom());
+	        if(c.getType().equals("conduite")) {
+	        	System.out.println("Vehicule: " + c.getVehicule());
+	        }
 	        System.out.println("Prix: " + c.getPrix());
 	        
 	    }

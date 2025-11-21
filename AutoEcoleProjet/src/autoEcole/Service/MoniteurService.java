@@ -8,7 +8,7 @@ public class MoniteurService {
 MoniteurRepository mRepository = new MoniteurRepository();
 	
 	public void addMoniteur(Moniteur c) {
-		Moniteur can = new Moniteur(c.getId(), c.getNom(),c.isDisponible(),c.getNbHeuresTravaillees());
+		Moniteur can = new Moniteur(c.getId(), c.getNom());
 		mRepository.add(can);
 	}
 	

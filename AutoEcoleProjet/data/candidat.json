@@ -1,1 +1,15 @@
-[{"nom":"lamis","prenom":"bejaoui","adresse":"fsdf","telephone":"sdffd","cin":12345678,"typePermis":"D","nbSeanceCode":0,"nbSeanceConduite":0},{"nom":"dsfsd","prenom":"fdsfsd","adresse":"fdsfds","telephone":"fdsfsd","cin":98765432,"typePermis":"D","nbSeanceCode":0,"nbSeanceConduite":0},{"nom":"ze","prenom":"qsd","adresse":"wxc","telephone":"13245","cin":85296366,"typePermis":"A","nbSeanceCode":0,"nbSeanceConduite":0}]
+[
+  {
+    "nom": "Bejaoui",
+    "prenom": "Lamis",
+    "adresse": "20St",
+    "telephone": "14589658",
+    "cin": 32145697,
+    "typePermis": "A",
+    "nbSeanceCode": 0,
+    "nbSeanceConduite": 0,
+    "totalPrice": 0.0,
+    "paidAmount": 0.0,
+    "seances": []
+  }
+]

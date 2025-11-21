@@ -51,8 +51,6 @@ import autoEcole.Entities.Moniteur;
 	        System.out.println("-------------------------");
 	        System.out.println("Nom: " + m.getNom());	      
 	        System.out.println("ID: " + m.getId());
-	        System.out.println("Disponibilite: " + m.isDisponible());
-	        System.out.println("Nb Heures Travaillees: " + m.getNbHeuresTravaillees());
 	    }
 	}
     
@@ -109,8 +107,7 @@ import autoEcole.Entities.Moniteur;
 	        	System.out.println("-------------------------");
 		        System.out.println("Nom: " + m.getNom());	      
 		        System.out.println("ID: " + m.getId());
-		        System.out.println("Disponibilite: " + m.isDisponible());
-		        System.out.println("Nb Heures Travaillees: " + m.getNbHeuresTravaillees());
+
 		        return;
 		    }
 	    }

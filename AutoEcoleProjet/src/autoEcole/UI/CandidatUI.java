@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 import autoEcole.Controller.CandidatController;
 import autoEcole.Entities.Candidat;
+import autoEcole.Entities.Seance;
+import autoEcole.Entities.TypesPermit;
 
 public class CandidatUI {
 	CandidatController controller = new CandidatController();
@@ -75,21 +77,15 @@ public class CandidatUI {
 			cin = scanner.next();
 		}
 		int c = Integer.parseInt(cin);
-		
-		System.out.println("saisir votre Type permit");
-		
-		String permit = scanner.nextLine();
-		while (!permit.equals("A1") && !permit.equals("A") && !permit.equals("B")&& !permit.equals("B+E")
-				&& !permit.equals("C")&& !permit.equals("C+E")&& !permit.equals("D")&& !permit.equals("H")
-				&& !permit.equals("D+E")&& !permit.equals("D1"))
-		{
-			System.out.println("saisir votre Type permit");
-			permit = scanner.nextLine();
-		}
-		
-		controller.add(new Candidat(nom, pre, adr, tel, c, permit, 0, 0));
+		TypesPermit permit =typepermit();
+		Seance[] seances = new Seance[0]; // no sessions yet
+		double paidAmount = 0; // initial paid amount
+		Candidat newCandidate = new Candidat(nom, pre, adr, tel, c, permit, 0, 0, 0, paidAmount, seances);
+		controller.add(newCandidate);
+
 		
 	}
+
 
 	private void deleteCandidate() {
 		Scanner scanner = new Scanner(System.in);
@@ -152,17 +148,8 @@ public class CandidatUI {
 	                break;
 
 	            case 5:
-	                System.out.print("Enter Type Permis: ");
-	                String permit = scanner.nextLine();
-	                while (!permit.equals("A1") && !permit.equals("A") && !permit.equals("B") &&
-	                       !permit.equals("B+E") && !permit.equals("C") && !permit.equals("C+E") &&
-	                       !permit.equals("D") && !permit.equals("H") && !permit.equals("D+E") && 
-	                       !permit.equals("D1")) 
-	                {
-	                    System.out.print("Invalid! Enter permit again: ");
-	                    permit = scanner.nextLine();
-	                }
-	                old.setTypePermis(permit);
+	                TypesPermit p=typepermit();
+	                old.setTypePermis(p);
 	                break;
 
 	            case 0:
@@ -176,6 +163,46 @@ public class CandidatUI {
 
 	    } while (choice != 0);
 	}
+	
+	public TypesPermit typepermit() {
+
+	    Scanner scanner = new Scanner(System.in);
+	    TypesPermit result = null;
+
+	    boolean repeat = true;
+
+	    while (repeat) {
+
+	        System.out.println("===== Choisir un Type de Permis =====");
+
+	        TypesPermit[] all = TypesPermit.values();
+
+	        for (int i = 0; i < all.length; i++) {
+	            System.out.println((i + 1) + ") " + all[i]);
+	        }
+
+	        System.out.print("Choix : ");
+
+	        // FIX SCANNER
+	        while (!scanner.hasNextInt()) {
+	            System.out.println("Veuillez entrer un nombre !");
+	            scanner.next();
+	        }
+
+	        int choix = scanner.nextInt();
+	        scanner.nextLine(); // consume \n
+
+	        if (choix >= 1 && choix <= all.length) {
+	            result = all[choix - 1];
+	            repeat = false;
+	        } else {
+	            System.out.println("Choix invalide. Réessayez.");
+	        }
+	    }
+
+	    return result;
+	}
+
 
 	
 	

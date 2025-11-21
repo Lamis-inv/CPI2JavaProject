@@ -13,7 +13,7 @@ public class Seance {
 	private double prix;
 	private Vehicule vehicule;
 	
-	Seance(int id,String type, LocalDate date, LocalTime heure, Moniteur moniteur, Candidat candidat, double prix,
+	public Seance(int id,String type, LocalDate date, LocalTime heure, Moniteur moniteur, Candidat candidat, double prix,
 			Vehicule vehicule) {
 		this.id = id;
 		this.type=type;
