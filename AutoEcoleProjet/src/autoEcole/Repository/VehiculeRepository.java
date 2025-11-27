@@ -3,31 +3,25 @@ package autoEcole.Repository;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Arrays;
-
 import com.google.gson.Gson;
-
 import autoEcole.Entities.Vehicule;
 
 public class VehiculeRepository {
-
     private final String filePath = "data/vehicule.json";
     private final Gson gson = new Gson();
 
-    public void add(Vehicule v) {
+    public void ajouter(Vehicule v) {
         Vehicule[] vehicules = getAll();
-
         for (Vehicule ve : vehicules) {
             if (ve.getNumImmatricule().equals(v.getNumImmatricule())) {
-                System.out.println("Vehicule already exists!");
+                System.out.println("Vehicule déjà existant !");
                 return;
             }
         }
-
         Vehicule[] newTab = Arrays.copyOf(vehicules, vehicules.length + 1);
         newTab[newTab.length - 1] = v;
-
         saveAll(newTab);
-        System.out.println("Vehicule added successfully!");
+        System.out.println("Vehicule ajouté avec succès !");
     }
 
     public Vehicule[] getAll() {
@@ -39,55 +33,39 @@ public class VehiculeRepository {
         }
     }
 
-    public void findAll() {
-        Vehicule[] vehicules = getAll();
-
-        if (vehicules.length == 0) {
-            System.out.println("No vehicules found.");
-            return;
+    public Vehicule findByImmatriculation(String imm) {
+        for (Vehicule v : getAll()) {
+            if (v.getNumImmatricule().equals(imm)) return v;
         }
-
-        for (Vehicule v : vehicules) {
-            System.out.println("-------------------------");
-            System.out.println("Immatricule: " + v.getNumImmatricule());
-            System.out.println("Date mise en service: " + v.getDateMiseEnService());
-            System.out.println("Kilometrage total: " + v.getKilometrageTotal());
-            System.out.println("Km avant entretien: " + v.getKmAvantEntretien());
-            System.out.println("Type: " + v.getType());
-        }
+        return null;
     }
 
-    public void update(String numImmatricule, Vehicule updated) {
+    public void modifier(String imm, Vehicule updated) {
         Vehicule[] tab = getAll();
         for (int i = 0; i < tab.length; i++) {
-            if (tab[i].getNumImmatricule().equals(numImmatricule)) {
+            if (tab[i].getNumImmatricule().equals(imm)) {
                 tab[i] = updated;
                 saveAll(tab);
-                System.out.println("Vehicule updated!");
+                System.out.println("Vehicule modifié !");
                 return;
             }
         }
-        System.out.println("Vehicule not found!");
+        System.out.println("Vehicule non trouvé !");
     }
 
-    public void delete(String numImmatricule) {
+    public void supprimer(String imm) {
         Vehicule[] vehicules = getAll();
+        Vehicule[] newTab = Arrays.stream(vehicules)
+            .filter(v -> !v.getNumImmatricule().equals(imm))
+            .toArray(Vehicule[]::new);
 
-        long total = Arrays.stream(vehicules)
-                .filter(v -> !v.getNumImmatricule().equals(numImmatricule))
-                .count();
-
-        if (total == vehicules.length) {
-            System.out.println("Vehicule not found!");
+        if (newTab.length == vehicules.length) {
+            System.out.println("Vehicule non trouvé !");
             return;
         }
 
-        Vehicule[] newTab = Arrays.stream(vehicules)
-                .filter(v -> !v.getNumImmatricule().equals(numImmatricule))
-                .toArray(Vehicule[]::new);
-
         saveAll(newTab);
-        System.out.println("Vehicule deleted!");
+        System.out.println("Vehicule supprimé !");
     }
 
     private void saveAll(Vehicule[] vehicules) {
