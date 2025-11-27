@@ -1,14 +1,27 @@
 [
   {
-    "nom": "Bejaoui",
-    "prenom": "Lamis",
-    "adresse": "20St",
-    "telephone": "14589658",
-    "cin": 32145697,
-    "typePermis": "A",
+    "nom": "lamis",
+    "prenom": "bejaoui",
+    "adresse": "58Bizerte",
+    "telephone": "14587456",
+    "cin": 12345678,
+    "typePermis": "C",
     "nbSeanceCode": 0,
     "nbSeanceConduite": 0,
-    "totalPrice": 0.0,
+    "totalPrice": 200.0,
+    "paidAmount": 0.0,
+    "seances": []
+  },
+  {
+    "nom": "foulen",
+    "prenom": "benfoulen",
+    "adresse": "manzelJmil",
+    "telephone": "8597785",
+    "cin": 78945696,
+    "typePermis": "A",
+    "nbSeanceCode": 2,
+    "nbSeanceConduite": 1,
+    "totalPrice": 250.0,
     "paidAmount": 0.0,
     "seances": []
   }

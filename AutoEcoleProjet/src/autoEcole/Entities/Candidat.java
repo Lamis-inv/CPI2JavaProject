@@ -95,7 +95,7 @@ public class Candidat {
 		this.nbSeanceConduite = nbSeanceConduite;
 	}
 	public double getTotalPrice() {
-        return getNbSeanceCode()*50+getNbSeanceConduite()*100;
+        return this.nbSeanceCode*50+this.nbSeanceConduite*100;
     }
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;

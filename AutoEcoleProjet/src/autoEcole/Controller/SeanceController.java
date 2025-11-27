@@ -10,6 +10,10 @@ public class SeanceController {
     public void add(Seance s) {
         service.addSeance(s);
     }
+    public Seance[] getAll() {
+        return service.getAll();
+    }
+
 
     public void findAll() {
         service.findAll();

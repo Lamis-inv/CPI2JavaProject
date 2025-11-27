@@ -2,6 +2,7 @@ package autoEcole.UI;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import autoEcole.Controller.CandidatController;
@@ -115,10 +116,10 @@ public class SeanceUI {
         }
 
         // --- Choose linked Moniteur ---
-        Moniteur moniteur = chooseMoniteur();
+        Moniteur moniteur = chooseMoniteur(date, heure,id);
 
         // --- Choose linked Candidat ---
-        Candidat candidat = chooseCandidat(type,prix);
+        Candidat candidat = chooseCandidat(type,prix,date,heure,id);
 
         // --- Choose linked Vehicle ---
         Vehicule vehicule = chooseVehicule(type);
@@ -129,74 +130,85 @@ public class SeanceUI {
     }
 
 
-    private Candidat chooseCandidat(String type,double prix) {
+    private Candidat chooseCandidat(String type, double prix, LocalDate date, LocalTime heure, int excludeId) {
         Candidat[] all = candidatRepo.getAll();
         if (all.length == 0) {
             System.out.println("No candidats available!");
             return null;
         }
+
         System.out.println("\n--- Choose Candidat ---");
-        int i;
-        for (i=0; i < all.length; i++) {
+        for (int i = 0; i < all.length; i++) {
             Candidat c = all[i];
             System.out.println((i + 1) + ") " + c.getNom() + " " + c.getPrenom());
         }
-        
-        
+
         System.out.print("Choose: ");
         int index = getIntInput();
         Candidat c = all[index - 1];
+
+        // Increment counts automatically
         if (type.equalsIgnoreCase("code")) {
             c.setNbSeanceCode(c.getNbSeanceCode() + 1);
         } else if (type.equalsIgnoreCase("conduite")) {
             c.setNbSeanceConduite(c.getNbSeanceConduite() + 1);
         }
-        CandidatController candidatController = new CandidatController();
-        candidatController.update(c.getCin(), c);
+        c.setTotalPrice(c.getTotalPrice() + prix);
+
+        candidatRepo.update(c.getCin(), c);
         return c;
     }
-    
 
-    	private Moniteur chooseMoniteur() {
-    	    Moniteur[] all = moniteurRepo.getAll();
 
-    	    // Count available moniteurs
-    	    int count = 0;
-    	    for (Moniteur m : all) {
-    	        if (m.isDisponible()) count++;
-    	    }
 
-    	    if (count == 0) {
-    	        System.out.println("No moniteurs available!");
-    	        return null;
-    	    }
+    private Moniteur chooseMoniteur(LocalDate date, LocalTime heure, int excludeId) {
+        Moniteur[] all = moniteurRepo.getAll();
+        Moniteur[] available = Arrays.stream(all)
+            .filter(m -> !isMoniteurBusy(m, date, heure, excludeId))
+            .toArray(Moniteur[]::new);
 
-    	    Moniteur[] available = new Moniteur[count];
-    	    int idx = 0;
-    	    for (Moniteur m : all) {
-    	        if (m.isDisponible()) available[idx++] = m;
-    	    }
+        if (available.length == 0) {
+            System.out.println("No moniteurs available for this date/time!");
+            return null;
+        }
 
-    	    // Show options
-    	    System.out.println("\n--- Choose Moniteur ---");
-    	    for (int i = 0; i < available.length; i++) {
-    	        System.out.println((i + 1) + ") " + available[i].getNom() + " (ID " + available[i].getId() + ")");
-    	    }
+        System.out.println("\n--- Choose Moniteur ---");
+        for (int i = 0; i < available.length; i++) {
+            System.out.println((i + 1) + ") " + available[i].getNom() + " (ID " + available[i].getId() + ")");
+        }
 
-    	    Moniteur moniteur = null;
-    	    while (moniteur == null) {
-    	        int choice = getIntInput();
-    	        if (choice >= 1 && choice <= available.length) {
-    	            moniteur = available[choice - 1];
-    	            moniteur.setDisponible(false);
-    	            moniteur.setNbHeuresTravaillees(moniteur.getNbHeuresTravaillees()+1);
-    	            moniteurRepo.update(moniteur.getId(), moniteur);
-    	        } else {
-    	            System.out.print("Invalid choice. Choose again: ");
-    	        }
-    	    }
-    	    return moniteur;
-    	}
+        Moniteur chosen = null;
+        while (chosen == null) {
+            int choice = getIntInput();
+            if (choice >= 1 && choice <= available.length) {
+                chosen = available[choice - 1];
+                chosen.setNbHeuresTravaillees(chosen.getNbHeuresTravaillees() + 1);
+                moniteurRepo.update(chosen.getId(), chosen);
+            } else {
+                System.out.print("Invalid choice. Choose again: ");
+            }
+        }
+
+        return chosen;
+    }
+
+
+    private boolean isMoniteurBusy(Moniteur m, LocalDate date, LocalTime heure, int excludeId) {
+        Seance[] all = controller.getAll();
+        for (Seance s : all) {
+            if (s.getId() == excludeId) continue;
+            if (s.getMoniteur().getId() == m.getId() && s.getDate().equals(date)) {
+                LocalTime start = s.getHeure();
+                LocalTime end = start.plusHours(1); // 1-hour session
+                if (!heure.isBefore(start) && heure.isBefore(end)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 
     	private Vehicule chooseVehicule(String type) {
     	    if (!type.equals("conduite")) return null; // only for conduite
@@ -288,8 +300,8 @@ public class SeanceUI {
                     System.out.print("Enter new heure (HH:MM): ");
                     old.setHeure(LocalTime.parse(scanner.nextLine()));
                 }
-                case 4 -> old.setMoniteur(chooseMoniteur());
-                case 5 -> old.setCandidat(chooseCandidat(old.getType(),old.getPrix()));
+                case 4 -> old.setMoniteur(chooseMoniteur(old.getDate(), old.getHeure(), old.getId()));
+                case 5 ->old.setCandidat(chooseCandidat(old.getType(), old.getPrix(), old.getDate(), old.getHeure(), old.getId()));
                 case 6 -> old.setVehicule(chooseVehicule(old.getType()));
                 case 7 -> {
                     System.out.print("Enter new prix: ");

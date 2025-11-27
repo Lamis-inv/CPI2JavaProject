@@ -60,31 +60,40 @@ public class CandidatUI {
 	}
 	
 	public void saisir() {
-		Scanner scanner = new Scanner(System.in);
-		System.out.println("saisir votre nom:");
-		String nom = scanner.nextLine();
-		System.out.println("saisir votre prenom:");
-		String pre = scanner.nextLine();
-		System.out.println("saisir votre adresse");
-		String adr = scanner.nextLine();
-		System.out.println("saisir votre Tel");
-		String tel = scanner.nextLine();
-		
-		System.out.println("saisir votre CIN");
-		String cin = scanner.nextLine();
-		while(cin.length()!=8) {
-			System.out.println("saisir votre CIN");
-			cin = scanner.next();
-		}
-		int c = Integer.parseInt(cin);
-		TypesPermit permit =typepermit();
-		Seance[] seances = new Seance[0]; // no sessions yet
-		double paidAmount = 0; // initial paid amount
-		Candidat newCandidate = new Candidat(nom, pre, adr, tel, c, permit, 0, 0, 0, paidAmount, seances);
-		controller.add(newCandidate);
+	    Scanner scanner = new Scanner(System.in);
+	    System.out.println("Saisir votre nom:");
+	    String nom = scanner.nextLine();
+	    System.out.println("Saisir votre prenom:");
+	    String pre = scanner.nextLine();
+	    System.out.println("Saisir votre adresse:");
+	    String adr = scanner.nextLine();
+	    System.out.println("Saisir votre Tel:");
+	    String tel = scanner.nextLine();
 
-		
+	    System.out.println("Saisir votre CIN:");
+	    String cinStr = scanner.nextLine();
+	    while (cinStr.length() != 8) {
+	        System.out.println("CIN invalide, veuillez saisir à nouveau (8 chiffres):");
+	        cinStr = scanner.nextLine();
+	    }
+	    int cin = Integer.parseInt(cinStr);
+
+	    TypesPermit permit = typepermit();
+	    Seance[] seances = new Seance[0];
+
+	    // Ask for partial payment
+	    double paidAmount = 0;
+	    System.out.print("Montant déjà payé (si aucun, tapez 0): ");
+	    while (!scanner.hasNextDouble()) {
+	        System.out.println("Veuillez entrer un nombre valide!");
+	        scanner.next();
+	    }
+	    paidAmount = scanner.nextDouble();
+
+	    Candidat newCandidate = new Candidat(nom, pre, adr, tel, cin, permit, 0, 0, 0, paidAmount, seances);
+	    controller.add(newCandidate);
 	}
+
 
 
 	private void deleteCandidate() {
@@ -120,6 +129,7 @@ public class CandidatUI {
 	        System.out.println("3. Update Adresse");
 	        System.out.println("4. Update Téléphone");
 	        System.out.println("5. Update Type Permis");
+	        System.out.println("6. Update Amount Paid");
 	        System.out.println("0. Save and Exit");
 	        System.out.print("Choose: ");
 
@@ -150,6 +160,16 @@ public class CandidatUI {
 	            case 5:
 	                TypesPermit p=typepermit();
 	                old.setTypePermis(p);
+	                break;
+	            case 6:
+	                System.out.print("Enter amount paid now (added to previous): ");
+	                while (!scanner.hasNextDouble()) {
+	                    System.out.println("Veuillez entrer un nombre valide!");
+	                    scanner.next();
+	                }
+	                double payment = scanner.nextDouble();
+	                old.setTotalPrice(old.getTotalPrice() + payment);
+	                System.out.println("Payment added successfully!");
 	                break;
 
 	            case 0:

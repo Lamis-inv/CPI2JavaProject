@@ -77,20 +77,9 @@ public class MoniteurUI {
 	        }
 	    }
 
-	    boolean dispo;
-	    while (true) {
-	        System.out.print("Is Disponible (true/false): ");
-	        if (scanner.hasNextBoolean()) {
-	            dispo = scanner.nextBoolean();
-	            scanner.nextLine(); // consume newline
-	            break;
-	        } else {
-	            System.out.println("Invalid input! Please enter true or false.");
-	            scanner.nextLine();
-	        }
-	    }
+	   
 
-	    Moniteur m = new Moniteur(id, nom, dispo,0);
+	    Moniteur m = new Moniteur(id, nom, true,0);
 	    controller.add(m); // le controller appellera la repo
 	}
 
