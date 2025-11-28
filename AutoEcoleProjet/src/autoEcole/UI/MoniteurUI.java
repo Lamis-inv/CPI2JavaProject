@@ -8,7 +8,10 @@ import autoEcole.Entities.Moniteur;
 
 public class MoniteurUI {
 
-	MoniteurController controller =new MoniteurController();
+	MoniteurController controller;
+	public MoniteurUI(MoniteurController controller) {
+		this.controller=controller;
+	}
 	
 	public void init() {
 		boolean test=true;

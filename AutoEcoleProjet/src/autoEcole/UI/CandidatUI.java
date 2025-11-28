@@ -3,13 +3,17 @@ package autoEcole.UI;
 import java.util.Scanner;
 
 import autoEcole.Controller.CandidatController;
+import autoEcole.Controller.SeanceController;
 import autoEcole.Entities.Candidat;
 import autoEcole.Entities.Seance;
 import autoEcole.Entities.TypesPermit;
 
 public class CandidatUI {
-	CandidatController controller = new CandidatController();
+	CandidatController controller;
 	
+	public CandidatUI( CandidatController controller) {
+		this.controller = controller;
+	}
 	
 	public void init() {
 		boolean test=true;
@@ -81,19 +85,9 @@ public class CandidatUI {
 	    TypesPermit permit = typepermit();
 	    Seance[] seances = new Seance[0];
 
-	    // Ask for partial payment
-	    double paidAmount = 0;
-	    System.out.print("Montant déjà payé (si aucun, tapez 0): ");
-	    while (!scanner.hasNextDouble()) {
-	        System.out.println("Veuillez entrer un nombre valide!");
-	        scanner.next();
-	    }
-	    paidAmount = scanner.nextDouble();
-
-	    Candidat newCandidate = new Candidat(nom, pre, adr, tel, cin, permit, 0, 0, 0, paidAmount, seances);
+	    Candidat newCandidate = new Candidat(nom, pre, adr, tel, cin, permit, 0, 0, 0, 0, seances);
 	    controller.add(newCandidate);
 	}
-
 
 
 	private void deleteCandidate() {
@@ -130,6 +124,7 @@ public class CandidatUI {
 	        System.out.println("4. Update Téléphone");
 	        System.out.println("5. Update Type Permis");
 	        System.out.println("6. Update Amount Paid");
+	        System.out.println("7. Mark code exam as passed");
 	        System.out.println("0. Save and Exit");
 	        System.out.print("Choose: ");
 
@@ -158,9 +153,10 @@ public class CandidatUI {
 	                break;
 
 	            case 5:
-	                TypesPermit p=typepermit();
+	                TypesPermit p = typepermit();
 	                old.setTypePermis(p);
 	                break;
+
 	            case 6:
 	                System.out.print("Enter amount paid now (added to previous): ");
 	                while (!scanner.hasNextDouble()) {
@@ -168,8 +164,12 @@ public class CandidatUI {
 	                    scanner.next();
 	                }
 	                double payment = scanner.nextDouble();
-	                old.setTotalPrice(old.getTotalPrice() + payment);
+	                old.pay(payment); 
 	                System.out.println("Payment added successfully!");
+	                break;
+
+	            case 7:
+	                markCodeExamPassed(old);
 	                break;
 
 	            case 0:
@@ -183,6 +183,12 @@ public class CandidatUI {
 
 	    } while (choice != 0);
 	}
+
+	public void markCodeExamPassed(Candidat candidat) {
+	    candidat.setCodeExamPassed(true);
+	    System.out.println(" Candidate has passed the code exam!");
+	}
+
 	
 	public TypesPermit typepermit() {
 
@@ -197,13 +203,14 @@ public class CandidatUI {
 
 	        TypesPermit[] all = TypesPermit.values();
 
+	        // Show index + label
 	        for (int i = 0; i < all.length; i++) {
-	            System.out.println((i + 1) + ") " + all[i]);
+	            System.out.println((i + 1) + ") " + all[i].getLabel());
 	        }
 
 	        System.out.print("Choix : ");
 
-	        // FIX SCANNER
+	        // Input validation
 	        while (!scanner.hasNextInt()) {
 	            System.out.println("Veuillez entrer un nombre !");
 	            scanner.next();
@@ -222,6 +229,7 @@ public class CandidatUI {
 
 	    return result;
 	}
+
 
 
 	

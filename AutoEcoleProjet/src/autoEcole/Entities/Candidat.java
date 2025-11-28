@@ -12,9 +12,20 @@ public class Candidat {
 	private double totalPrice;
     private double paidAmount;
     private Seance[] seances;
+    private boolean codeExamPassed;
+
     
-    
-	
+    public boolean isCodeExamPassed() {
+        return codeExamPassed;
+    }
+    public boolean getCodeExamPassed() {
+        return codeExamPassed;
+    }
+
+    public void setCodeExamPassed(boolean codeExamPassed) {
+        this.codeExamPassed = codeExamPassed;
+    }
+
 	public String getNom() {
 		return nom;
 	}
@@ -53,20 +64,21 @@ public class Candidat {
 		this.typePermis = typePermis;
 	}
 	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, TypesPermit typePermis,
-			int nbSeanceCode, int nbSeanceConduite, double totalPrice, double paidAmount, Seance[] seances) {
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.adresse = adresse;
-		this.telephone = telephone;
-		this.cin = cin;
-		this.typePermis = typePermis;
-		this.nbSeanceCode = nbSeanceCode;
-		this.nbSeanceConduite = nbSeanceConduite;
-		this.totalPrice = totalPrice;
-		this.paidAmount = paidAmount;
-		this.seances = seances;
+	        int nbSeanceCode, int nbSeanceConduite, double totalPrice, double paidAmount, Seance[] seances) {
+	    this.nom = nom;
+	    this.prenom = prenom;
+	    this.adresse = adresse;
+	    this.telephone = telephone;
+	    this.cin = cin;
+	    this.typePermis = typePermis;
+	    this.nbSeanceCode = nbSeanceCode;
+	    this.nbSeanceConduite = nbSeanceConduite;
+	    this.totalPrice = totalPrice;
+	    this.paidAmount = paidAmount;
+	    this.seances = seances;
+	    this.codeExamPassed = false; // add here
 	}
+
 	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, TypesPermit typePermis,
 			 double totalPrice, double paidAmount, Seance[] seances) {
 		super();
@@ -81,7 +93,27 @@ public class Candidat {
 		this.totalPrice = totalPrice;
 		this.paidAmount = paidAmount;
 		this.seances = seances;
+		this.codeExamPassed = false;
 	}
+	public void addCodeSession() {
+	    nbSeanceCode++;
+	    totalPrice += typePermis.getPrixCode();
+	}
+
+	public void addConduiteSession() {
+	    nbSeanceConduite++;
+	    totalPrice += typePermis.getPrixConduite();
+	}
+
+	public void pay(double amount) {
+	    if(amount <= 0) return;
+	    paidAmount += amount; // increments, never decrements counts
+	}
+
+	public double getRemainingAmount() {
+	    return totalPrice - paidAmount;
+	}
+
 	public int getNbSeanceCode() {
 		return nbSeanceCode;
 	}
@@ -95,14 +127,11 @@ public class Candidat {
 		this.nbSeanceConduite = nbSeanceConduite;
 	}
 	public double getTotalPrice() {
-        return this.nbSeanceCode*50+this.nbSeanceConduite*100;
-    }
+	    return totalPrice;
+	}
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	public double getRemainingAmount() {
-        return getTotalPrice() - paidAmount;
-    }
 	public double getPaidAmount() {
 		return paidAmount;
 	}

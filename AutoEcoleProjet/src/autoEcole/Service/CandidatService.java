@@ -28,45 +28,49 @@ public class CandidatService {
 	}
 	
 	public void updateCandidat(int cin, Candidat c) {
-        Candidat old = cRepository.getByCin(cin);
-        if (old == null) {
-            System.out.println("Candidate not found!");
-            return;
-        }
+	    Candidat old = cRepository.getByCin(cin);
+	    if (old == null) {
+	        System.out.println("Candidate not found!");
+	        return;
+	    }
 
-        // Merge sessions
-        Seance[] updatedSeances = c.getSeances() != null ? c.getSeances() : old.getSeances();
+	    // Merge sessions
+	    Seance[] updatedSeances = c.getSeances() != null ? c.getSeances() : old.getSeances();
 
-        // Recompute number of sessions
-        int nbCode = 0;
-        int nbConduite = 0;
-        if (updatedSeances != null) {
-            for (Seance s : updatedSeances) {
-                if (s != null) {
-                    if (s.getType().equalsIgnoreCase("Code")) nbCode++;
-                    else if (s.getType().equalsIgnoreCase("Conduite")) nbConduite++;
-                }
-            }
-        }
+	    // Recompute number of sessions
+	    int nbCode = 0;
+	    int nbConduite = 0;
+	    if (updatedSeances != null) {
+	        for (Seance s : updatedSeances) {
+	            if (s != null) {
+	                if (s.getType().equalsIgnoreCase("Code")) nbCode++;
+	                else if (s.getType().equalsIgnoreCase("Conduite")) nbConduite++;
+	            }
+	        }
+	    }
 
-        // Create updated candidate object
-        Candidat updated = new Candidat(
-                c.getNom(),
-                c.getPrenom(),
-                c.getAdresse(),
-                c.getTelephone(),
-                c.getCin(),
-                c.getTypePermis(),
-                nbCode,
-                nbConduite,
-                c.getTotalPrice(),
-                c.getPaidAmount(),
-                updatedSeances
-        );
+	    // Create updated candidate object
+	    Candidat updated = new Candidat(
+	            c.getNom(),
+	            c.getPrenom(),
+	            c.getAdresse(),
+	            c.getTelephone(),
+	            c.getCin(),
+	            c.getTypePermis(),
+	            nbCode,
+	            nbConduite,
+	            c.getTotalPrice(),
+	            c.getPaidAmount(),
+	            updatedSeances
+	    );
 
-        cRepository.update(cin, updated);
-        System.out.println("Candidate updated successfully!");
-    }
+	    // Preserve code exam status
+	    updated.setCodeExamPassed(c.getCodeExamPassed());
+
+	    cRepository.update(cin, updated);
+	    System.out.println("Candidate updated successfully!");
+	}
+
 	public Candidat getByCin(int cin) {
 	    return cRepository.getByCin(cin);
 	}

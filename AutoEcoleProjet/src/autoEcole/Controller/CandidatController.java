@@ -2,12 +2,18 @@ package autoEcole.Controller;
 
 import autoEcole.Entities.Candidat;
 import autoEcole.Service.CandidatService;
+import autoEcole.UI.CandidatUI;
+import autoEcole.UI.SeanceUI;
 
 
 public class CandidatController {
 	
 	CandidatService candidatService = new CandidatService();
 	
+	private final CandidatUI ui = new CandidatUI(this);
+	public void init() {
+		ui.init();
+	}
 	public void add(Candidat c) {
 		candidatService.addCandidat(c);
 	}

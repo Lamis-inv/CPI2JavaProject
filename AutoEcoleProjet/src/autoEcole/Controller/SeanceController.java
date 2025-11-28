@@ -2,11 +2,16 @@ package autoEcole.Controller;
 
 import autoEcole.Entities.Seance;
 import autoEcole.Service.SeanceService;
+import autoEcole.UI.SeanceUI;
 
 public class SeanceController {
     
     private final SeanceService service = new SeanceService();
-
+    private final SeanceUI ui = new SeanceUI(this);
+    
+    public void init() {
+    	ui.init();
+    }
     public void add(Seance s) {
         service.addSeance(s);
     }
