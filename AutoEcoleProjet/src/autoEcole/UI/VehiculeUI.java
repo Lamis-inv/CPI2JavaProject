@@ -44,11 +44,27 @@ public class VehiculeUI {
     }
 
     private void ajouterVehicule() {
-        System.out.println("\n--- Ajouter Véhicule ---");
-        System.out.print("Immatriculation : ");
-        String imm = scanner.nextLine();
-        System.out.print("Type : ");
-        String type = scanner.nextLine();
+        System.out.println("\n--- Ajouter une nouvelle Véhicule ---");
+
+        String imm;
+        do {
+            System.out.print("Immatricule : ");
+            imm = scanner.nextLine().trim();
+
+            if (!imm.matches("\\d{1,3}TUN\\d{1,4}")) {
+                System.out.println("Immatricule invalide !");
+            }
+        } while (!imm.matches("\\d{1,3}TUN\\d{1,4}"));
+        
+        String type;
+        do {
+            System.out.print("Type de la vehicule: ");
+            type = scanner.nextLine().trim().toLowerCase();
+            if (!type.matches("moto|voiture|camion|autobus")) {
+                System.out.println("Type invalide !");
+            }
+        } while (!type.matches("moto|voiture|camion|autobus"));
+        
         LocalDate dateMiseEnService = lireDate("Date mise en service (YYYY-MM-DD) : ");
         int kilometrageTotal = lireInt("Kilométrage total : ");
         int kmAvantEntretien = lireInt("Km avant entretien : ");
@@ -78,7 +94,7 @@ public class VehiculeUI {
     private void modifierVehicule() {
         System.out.print("\nImmatriculation du véhicule à modifier : ");
         String imm = scanner.nextLine();
-        Vehicule v = controller.getTous() == null ? null : controller.getTous()[0]; // Simplified retrieval
+        Vehicule v = controller.getTous() == null ? null : controller.getTous()[0]; // retrieval
         if (v == null) { System.out.println("Véhicule non trouvé !"); return; }
 
         System.out.println("Saisir les nouvelles informations :");
@@ -132,17 +148,34 @@ public class VehiculeUI {
         controller.ajouterReparation(r);
     }
 
-    // Méthodes utilitaires pour la saisie
-    private LocalDate lireDate(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            String input = scanner.nextLine();
-            try { return LocalDate.parse(input); }
-            catch (DateTimeParseException e) { System.out.println("Format invalide. Réessayez."); }
+    // verif date
+    private LocalDate lireDate(String message) {
+    	LocalDate date = null;
+        boolean valide = false;
+
+        while (!valide) {
+            System.out.print(message);
+            String input = scanner.nextLine().trim();
+
+            try {
+                // Try parsing using ISO format (YYYY-MM-DD)
+                date = LocalDate.parse(input);
+
+                // Check if the date is in the future
+                if (date.isAfter(LocalDate.now())) {
+                    System.out.println("La date ne peut pas être supérieure à aujourd'hui !");
+                } else {
+                    valide = true;
+                }
+
+            } catch (DateTimeParseException e) {
+                System.out.println("Format invalide ! Format attendu : YYYY-MM-DD");
+            }
         }
+        return date;
     }
 
-    //verif
+    //verif int and double
     private int lireInt(String prompt) {
         while (true) {
             System.out.print(prompt);

@@ -9,20 +9,7 @@ import autoEcole.UI.VehiculeUI;
 public class Main {
 
 	public static void main(String[] args) {
-		  ;     
-		/*
-		 * 
-		 MoniteurUI m =new MoniteurUI();
-		m.init()
-		VehiculeUI v=new VehiculeUI();
-		v.init();
-		CandidatUI c = new CandidatUI();
-		c.init();
-		*/
-		SeanceUI s = new SeanceUI();
-		s.init();
-				
-		
+		 
 	}	
 
 }
