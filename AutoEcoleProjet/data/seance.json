@@ -2,164 +2,109 @@
   {
     "id": 1,
     "type": "code",
-    "date": "2025-11-26",
-    "heure": "09:00:00",
+    "date": "2025-11-28",
+    "heure": "08:00:00",
+    "moniteur": {
+      "id": 123588,
+      "nom": "Kim",
+      "isDisponible": false,
+      "nbHeuresTravaillees": 6
+    },
+    "candidat": {
+      "nom": "ed",
+      "prenom": "sheeran",
+      "adresse": "london",
+      "telephone": "7894565",
+      "cin": 78945678,
+      "typePermis": "C",
+      "nbSeanceCode": 1,
+      "nbSeanceConduite": 0,
+      "totalPrice": 15.0,
+      "paidAmount": 0.0,
+      "seances": [],
+      "codeExamPassed": false
+    },
+    "prix": 15.0
+  },
+  {
+    "id": 2,
+    "type": "code",
+    "date": "2025-11-28",
+    "heure": "08:00:00",
     "moniteur": {
       "id": 144445,
       "nom": "Lee",
       "isDisponible": false,
-      "nbHeuresTravaillees": 1
+      "nbHeuresTravaillees": 12
     },
     "candidat": {
-      "nom": "lamis",
-      "prenom": "bejaoui",
-      "adresse": "58Bizerte",
-      "telephone": "14587456",
+      "nom": "bejaoui",
+      "prenom": "lamis",
+      "adresse": "jarzouna",
+      "telephone": "7895456",
       "cin": 12345678,
-      "typePermis": "C",
+      "typePermis": "A",
       "nbSeanceCode": 1,
       "nbSeanceConduite": 0,
-      "totalPrice": 0.0,
+      "totalPrice": 15.0,
       "paidAmount": 0.0,
-      "seances": []
+      "seances": [],
+      "codeExamPassed": false
     },
-    "prix": 50.0
-  },
-  {
-    "id": 2,
-    "type": "conduite",
-    "date": "2025-11-26",
-    "heure": "11:00:00",
-    "moniteur": {
-      "id": 888,
-      "nom": "jung",
-      "isDisponible": false,
-      "nbHeuresTravaillees": 1
-    },
-    "candidat": {
-      "nom": "foulen",
-      "prenom": "benfoulen",
-      "adresse": "manzelJmil",
-      "telephone": "8597785",
-      "cin": 78945696,
-      "typePermis": "A",
-      "nbSeanceCode": 0,
-      "nbSeanceConduite": 1,
-      "totalPrice": 0.0,
-      "paidAmount": 0.0,
-      "seances": []
-    },
-    "prix": 100.0
+    "prix": 15.0
   },
   {
     "id": 3,
     "type": "code",
-    "date": "2025-11-26",
+    "date": "2025-11-30",
+    "heure": "09:00:00",
+    "moniteur": {
+      "id": 888,
+      "nom": "jung",
+      "isDisponible": false,
+      "nbHeuresTravaillees": 4
+    },
+    "candidat": {
+      "nom": "bejaoui",
+      "prenom": "lamis",
+      "adresse": "jarzouna",
+      "telephone": "7895456",
+      "cin": 12345678,
+      "typePermis": "A",
+      "nbSeanceCode": 1,
+      "nbSeanceConduite": 0,
+      "totalPrice": 30.0,
+      "paidAmount": 9.0,
+      "seances": [],
+      "codeExamPassed": true
+    },
+    "prix": 15.0
+  },
+  {
+    "id": 4,
+    "type": "conduite",
+    "date": "2025-11-30",
     "heure": "13:00:00",
     "moniteur": {
       "id": 123588,
       "nom": "Kim",
       "isDisponible": false,
-      "nbHeuresTravaillees": 1
+      "nbHeuresTravaillees": 7
     },
     "candidat": {
-      "nom": "foulen",
-      "prenom": "benfoulen",
-      "adresse": "manzelJmil",
-      "telephone": "8597785",
-      "cin": 78945696,
+      "nom": "bejaoui",
+      "prenom": "lamis",
+      "adresse": "jarzouna",
+      "telephone": "7895456",
+      "cin": 12345678,
       "typePermis": "A",
       "nbSeanceCode": 1,
       "nbSeanceConduite": 1,
-      "totalPrice": 200.0,
-      "paidAmount": 0.0,
-      "seances": []
+      "totalPrice": 58.0,
+      "paidAmount": 9.0,
+      "seances": [],
+      "codeExamPassed": true
     },
-    "prix": 50.0
-  },
-  {
-    "id": 4,
-    "type": "conduite",
-    "date": "2025-11-26",
-    "heure": "08:00:00",
-    "moniteur": {
-      "id": 747856,
-      "nom": "Jef",
-      "isDisponible": false,
-      "nbHeuresTravaillees": 1
-    },
-    "candidat": {
-      "nom": "lamis",
-      "prenom": "bejaoui",
-      "adresse": "58Bizerte",
-      "telephone": "14587456",
-      "cin": 12345678,
-      "typePermis": "C",
-      "nbSeanceCode": 1,
-      "nbSeanceConduite": 1,
-      "totalPrice": 250.0,
-      "paidAmount": 0.0,
-      "seances": []
-    },
-    "prix": 100.0,
-    "vehicule": {
-      "numImmatricule": "789",
-      "dateMiseEnService": "2122",
-      "kilometrageTotal": 121,
-      "kmAvantEntretien": 121,
-      "type": "23"
-    }
-  },
-  {
-    "id": 5,
-    "type": "code",
-    "date": "2025-11-26",
-    "heure": "10:00:00",
-    "moniteur": {
-      "id": 747856,
-      "nom": "Jef",
-      "isDisponible": false,
-      "nbHeuresTravaillees": 2
-    },
-    "candidat": {
-      "nom": "foulen",
-      "prenom": "benfoulen",
-      "adresse": "manzelJmil",
-      "telephone": "8597785",
-      "cin": 78945696,
-      "typePermis": "A",
-      "nbSeanceCode": 2,
-      "nbSeanceConduite": 1,
-      "totalPrice": 250.0,
-      "paidAmount": 0.0,
-      "seances": []
-    },
-    "prix": 50.0
-  },
-  {
-    "id": 6,
-    "type": "code",
-    "date": "2025-11-26",
-    "heure": "10:00:00",
-    "moniteur": {
-      "id": 144445,
-      "nom": "Lee",
-      "isDisponible": false,
-      "nbHeuresTravaillees": 2
-    },
-    "candidat": {
-      "nom": "lamis",
-      "prenom": "bejaoui",
-      "adresse": "58Bizerte",
-      "telephone": "14587456",
-      "cin": 12345678,
-      "typePermis": "C",
-      "nbSeanceCode": 2,
-      "nbSeanceConduite": 1,
-      "totalPrice": 250.0,
-      "paidAmount": 0.0,
-      "seances": []
-    },
-    "prix": 50.0
+    "prix": 28.0
   }
 ]

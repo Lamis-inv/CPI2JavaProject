@@ -1,28 +1,30 @@
 [
   {
-    "nom": "lamis",
-    "prenom": "bejaoui",
-    "adresse": "58Bizerte",
-    "telephone": "14587456",
-    "cin": 12345678,
+    "nom": "ed",
+    "prenom": "sheeran",
+    "adresse": "london",
+    "telephone": "7894565",
+    "cin": 78945678,
     "typePermis": "C",
     "nbSeanceCode": 0,
     "nbSeanceConduite": 0,
-    "totalPrice": 200.0,
-    "paidAmount": 0.0,
-    "seances": []
+    "totalPrice": 15.0,
+    "paidAmount": 5.0,
+    "seances": [],
+    "codeExamPassed": false
   },
   {
-    "nom": "foulen",
-    "prenom": "benfoulen",
-    "adresse": "manzelJmil",
-    "telephone": "8597785",
-    "cin": 78945696,
+    "nom": "bejaoui",
+    "prenom": "lamis",
+    "adresse": "jarzouna",
+    "telephone": "7895456",
+    "cin": 12345678,
     "typePermis": "A",
-    "nbSeanceCode": 2,
-    "nbSeanceConduite": 1,
-    "totalPrice": 250.0,
-    "paidAmount": 0.0,
-    "seances": []
+    "nbSeanceCode": 0,
+    "nbSeanceConduite": 0,
+    "totalPrice": 58.0,
+    "paidAmount": 49.0,
+    "seances": [],
+    "codeExamPassed": true
   }
 ]

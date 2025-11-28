@@ -10,14 +10,18 @@ import autoEcole.Controller.SeanceController;
 import autoEcole.Entities.Candidat;
 import autoEcole.Entities.Moniteur;
 import autoEcole.Entities.Seance;
+import autoEcole.Entities.TypesPermit;
 import autoEcole.Entities.Vehicule;
 import autoEcole.Repository.CandidatRepository;
 import autoEcole.Repository.MoniteurRepository;
 import autoEcole.Repository.VehiculeRepository;
 
 public class SeanceUI {
+	private SeanceController controller;
 
-    private final SeanceController controller = new SeanceController();
+	public SeanceUI(SeanceController controller) {
+	    this.controller = controller;
+	}
     private final Scanner scanner = new Scanner(System.in);
 
     // repos to pick linked objects
@@ -26,7 +30,7 @@ public class SeanceUI {
     private final VehiculeRepository vehiculeRepo = new VehiculeRepository();
 
     public void init() {
-
+    	
         boolean loop = true;
 
         while (loop) {
@@ -74,10 +78,11 @@ public class SeanceUI {
     public void saisir() {
         scanner.nextLine(); // clean \n
 
-        System.out.print("Enter ID: ");
-        int id = getIntInput();
-        scanner.nextLine();
+        // --- Auto-generate ID ---
+        int id = controller.getAll().length + 1;
+        System.out.println("Generated Seance ID = " + id);
 
+        // --- Choose Seance Type ---
         String type = "";
         while (true) {
             System.out.println("Choose Seance Type:");
@@ -85,52 +90,102 @@ public class SeanceUI {
             System.out.println("2. Code");
             System.out.print("Your choice: ");
 
-            int ch = scanner.nextInt();
-            scanner.nextLine(); // clear buffer
+            int ch = getIntInput();
+            scanner.nextLine();
 
-            switch (ch) {
-                case 1:
-                    type = "conduite";
-                    break;
-                case 2:
-                    type = "code";
-                    break;
-                default:
-                    System.out.println("Invalid choice. Try again.");
-                    continue;
+            if (ch == 1) type = "conduite";
+            else if (ch == 2) type = "code";
+            else {
+                System.out.println("Invalid choice. Try again.");
+                continue;
             }
             break;
         }
 
-        System.out.print("Enter date (YYYY-MM-DD): ");
-        LocalDate date = LocalDate.parse(scanner.nextLine());
-
-        System.out.print("Enter heure (HH:MM): ");
-        LocalTime heure = LocalTime.parse(scanner.nextLine());
-
-        double prix;
-        if(type.equals("code")) {
-            prix = 50;
-        } else { // conduite
-            prix = 100;
+        // --- Pick date ---
+        LocalDate date = null;
+        while (date == null) {
+            System.out.print("Enter date (YYYY-MM-DD): ");
+            try {
+                LocalDate d = LocalDate.parse(scanner.nextLine());
+                if (d.isBefore(LocalDate.now())) {
+                    System.out.println("❌ Date cannot be in the past.");
+                } else {
+                    date = d;
+                }
+            } catch (Exception e) {
+                System.out.println("❌ Invalid date format.");
+            }
         }
 
-        // --- Choose linked Moniteur ---
-        Moniteur moniteur = chooseMoniteur(date, heure,id);
+        // --- Pick time ---
+        LocalTime heure = null;
+        while (heure == null) {
+            System.out.print("Enter heure (HH:MM) between 08:00 and 18:00: ");
+            try {
+                LocalTime temp = LocalTime.parse(scanner.nextLine());
+                if (temp.isBefore(LocalTime.of(8, 0)) || temp.isAfter(LocalTime.of(18, 0))) {
+                    System.out.println("❌ Time must be between 08:00 and 18:00.");
+                    continue;
+                }
+                if (date.equals(LocalDate.now()) && temp.isBefore(LocalTime.now())) {
+                    System.out.println("❌ You cannot schedule a past hour today.");
+                    continue;
+                }
+                heure = temp;
+            } catch (Exception e) {
+                System.out.println("❌ Invalid format. Use HH:MM.");
+            }
+        }
 
-        // --- Choose linked Candidat ---
-        Candidat candidat = chooseCandidat(type,prix,date,heure,id);
+        // --- Choose Moniteur ---
+        Moniteur moniteur = chooseMoniteur(date, heure, id);
 
-        // --- Choose linked Vehicle ---
+        // --- Choose Candidat ---
+        Candidat candidat = null;
+        while (candidat == null) {
+            candidat = chooseCandidat(type, date, heure, id);
+            if (candidat == null) {
+                System.out.println("Please select a valid candidate.");
+            }
+        }
+
+        // --- Prevent conduite if code not passed ---
+        if (type.equalsIgnoreCase("conduite") && !candidat.getCodeExamPassed()) {
+            System.out.println("❌ Candidate cannot take a driving lesson before passing the code exam.");
+            return; // cancel seance creation
+        }
+
+        // --- Choose Vehicle ---
         Vehicule vehicule = chooseVehicule(type);
 
-        Seance s = new Seance(id, type,date, heure, moniteur, candidat, prix, vehicule);
+        // --- Auto-calculate price ---
+        double prix = type.equalsIgnoreCase("code") ?
+                      candidat.getTypePermis().getPrixCode() :
+                      candidat.getTypePermis().getPrixConduite();
+
+     // --- Increment counts and update totalPrice BEFORE creating Seance ---
+        if (type.equalsIgnoreCase("code")) {
+            candidat.addCodeSession();
+        } else {
+            candidat.addConduiteSession();
+        }
+
+        candidatRepo.update(candidat.getCin(), candidat);
+
+
+        // --- Now create Seance with updated candidate ---
+        Seance s = new Seance(id, type, date, heure, moniteur, candidat, prix, vehicule);
         controller.add(s);
-        
+
+
+        System.out.println("Seance added successfully!");
     }
 
+   
 
-    private Candidat chooseCandidat(String type, double prix, LocalDate date, LocalTime heure, int excludeId) {
+
+    private Candidat chooseCandidat(String type, LocalDate date, LocalTime heure, int excludeId) {
         Candidat[] all = candidatRepo.getAll();
         if (all.length == 0) {
             System.out.println("No candidats available!");
@@ -146,14 +201,6 @@ public class SeanceUI {
         System.out.print("Choose: ");
         int index = getIntInput();
         Candidat c = all[index - 1];
-
-        // Increment counts automatically
-        if (type.equalsIgnoreCase("code")) {
-            c.setNbSeanceCode(c.getNbSeanceCode() + 1);
-        } else if (type.equalsIgnoreCase("conduite")) {
-            c.setNbSeanceConduite(c.getNbSeanceConduite() + 1);
-        }
-        c.setTotalPrice(c.getTotalPrice() + prix);
 
         candidatRepo.update(c.getCin(), c);
         return c;
@@ -301,7 +348,7 @@ public class SeanceUI {
                     old.setHeure(LocalTime.parse(scanner.nextLine()));
                 }
                 case 4 -> old.setMoniteur(chooseMoniteur(old.getDate(), old.getHeure(), old.getId()));
-                case 5 ->old.setCandidat(chooseCandidat(old.getType(), old.getPrix(), old.getDate(), old.getHeure(), old.getId()));
+                case 5 ->old.setCandidat(chooseCandidat(old.getType(), old.getDate(), old.getHeure(), old.getId()));
                 case 6 -> old.setVehicule(chooseVehicule(old.getType()));
                 case 7 -> {
                     System.out.print("Enter new prix: ");

@@ -45,7 +45,6 @@ public class SeanceRepository {
 	    newTab[newTab.length - 1] = s;
 
 	    saveAll(newTab);
-        System.out.println("Seance added successfully!");
 	}
     
     public Seance[] getAll() {
