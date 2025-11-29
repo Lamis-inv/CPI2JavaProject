@@ -1,34 +1,48 @@
 package autoEcole.Controller;
 
 import autoEcole.Service.ComptabiliteService;
-import autoEcole.Entities.Comptabilite;
-import java.time.LocalDate;
+import autoEcole.Entities.*;
 
 public class ComptabiliteController {
 
-    public final ComptabiliteService service;
+    private final ComptabiliteService service;
 
     public ComptabiliteController(ComptabiliteService service) {
         this.service = service;
     }
 
-    public void enregistrerRevenu(double montant) {
-        service.enregistrerRevenu(montant);
+    // Candidate paid for a session
+    public void seancePayee(Seance s) { 
+        service.enregistrerSeancePayment(s); 
     }
 
-    public void enregistrerDepense(String categorie, double montant, LocalDate date) {
-        service.enregistrerDepense(categorie, montant, date);
+    // Pay a moniteur
+    public void payerMoniteur(Moniteur m, double heures, double tauxHoraire) {
+        service.payerMoniteur(m, heures, tauxHoraire);
     }
 
-    public void salaireMoniteur(int idMoniteur, double montant) {
-        service.salaireMoniteur(idMoniteur, montant);
+    // Vehicle maintenance
+    public void maintenanceVehicule(Maintenance m) {
+        service.enregistrerMaintenance(m);
     }
 
-    public Comptabilite[] getAll() {
-        return service.getAll();
+    // Vehicle repair
+    public void reparationVehicule(Reparation r) {
+        service.enregistrerReparation(r);
     }
 
+    // Show monthly report
     public void afficherMois(int mois, int annee) {
         service.afficherMois(mois, annee);
+    }
+
+    // Optionally: interactive menu for UI
+    public void init() {
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        System.out.print("Entrez le mois (1-12) : ");
+        int mois = scanner.nextInt();
+        System.out.print("Entrez l'année : ");
+        int annee = scanner.nextInt();
+        afficherMois(mois, annee);
     }
 }

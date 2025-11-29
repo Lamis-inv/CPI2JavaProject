@@ -8,7 +8,13 @@ import autoEcole.Controller.MoniteurController;
 import autoEcole.Controller.SeanceController;
 import autoEcole.Controller.VehiculeController;
 import autoEcole.Entities.Seance;
+import autoEcole.Repository.CandidatRepository;
 import autoEcole.Repository.ComptabiliteRepository;
+import autoEcole.Repository.MaintenanceRepository;
+import autoEcole.Repository.MoniteurRepository;
+import autoEcole.Repository.ReparationRepository;
+import autoEcole.Repository.SeanceRepository;
+import autoEcole.Repository.VehiculeRepository;
 import autoEcole.Service.ComptabiliteService;
 import autoEcole.UI.CandidatUI;
 import autoEcole.UI.ComptabiliteUI;
@@ -32,12 +38,18 @@ public class Main {
         CandidatController c = new CandidatController();
         VehiculeController v = new VehiculeController();
 
-        // === FIXED COMPTABILITE ===
-        ComptabiliteRepository compRepo = new ComptabiliteRepository();
-        ComptabiliteService compService = new ComptabiliteService(compRepo);
-        ComptabiliteController compController = new ComptabiliteController(compService);
-        ComptabiliteUI cmp = new ComptabiliteUI(compController);
-        // ===========================
+        CandidatRepository cRepo = new CandidatRepository();
+        MoniteurRepository mRepo = new MoniteurRepository();
+        VehiculeRepository vRepo = new VehiculeRepository();
+        ReparationRepository rRepo = new ReparationRepository();
+        MaintenanceRepository maRepo = new MaintenanceRepository();
+        SeanceRepository sRepo = new SeanceRepository();  // added
+
+        ComptabiliteService comptaService = new ComptabiliteService(cRepo, mRepo, vRepo, rRepo, maRepo, sRepo);
+        ComptabiliteController comptaController = new ComptabiliteController(comptaService);
+        ComptabiliteUI comptaUI = new ComptabiliteUI(comptaController);
+
+
 
         boolean loop = true;
 
@@ -60,7 +72,7 @@ public class Main {
                 case 3 -> m.init();
                 case 4 -> v.init();
                 case 5 -> planing();
-                case 6 -> cmp.menu();   // <=== FIXED HERE
+                case 6 -> comptaUI.menu();
                 case 0 -> loop = false;
                 default -> System.out.println("Invalid choice!");
             }

@@ -1,111 +1,108 @@
 package autoEcole.Service;
 
-import autoEcole.Entities.Comptabilite;
-import autoEcole.Repository.ComptabiliteRepository;
+import autoEcole.Entities.*;
+import autoEcole.Repository.*;
 
 import java.time.LocalDate;
 
 public class ComptabiliteService {
 
-    private final ComptabiliteRepository repo;
+    private final CandidatRepository cRepo;
+    private final MoniteurRepository mRepo;
+    private final VehiculeRepository vRepo;
+    private final ReparationRepository rRepo;
+    private final MaintenanceRepository maRepo;
+    private final SeanceRepository sRepo;
 
-    public ComptabiliteService(ComptabiliteRepository repo) {
-        this.repo = repo;
+    public ComptabiliteService(
+            CandidatRepository cRepo,
+            MoniteurRepository mRepo,
+            VehiculeRepository vRepo,
+            ReparationRepository rRepo,
+            MaintenanceRepository maRepo,
+            SeanceRepository sRepo
+    ) {
+        this.cRepo = cRepo;
+        this.mRepo = mRepo;
+        this.vRepo = vRepo;
+        this.rRepo = rRepo;
+        this.maRepo = maRepo;
+        this.sRepo = sRepo;
     }
 
-    /**
-     * Get global totals: total revenus, depenses, benefice
-     */
-    public Comptabilite getTotals() {
-        Comptabilite total = new Comptabilite();
+    // === Record a candidate payment for a session ===
+    public void enregistrerSeancePayment(Seance s) {
+        Candidat c = s.getCandidat();
+        if (c != null) {
+            c.pay(s.getPrix());
+            cRepo.update(c.getCin(), c);
+        }
+    }
 
-        for (Comptabilite c : repo.getAll()) {
-            if (c.getType().equals("revenu")) {
-                total.ajouterRevenu(c.getMontant());
-            } else {
-                total.ajouterDepense(c.getMontant());
-            }
+    // === Pay a moniteur for worked hours ===
+    public void payerMoniteur(Moniteur m, double heures, double tauxHoraire) {
+        double salaire = heures * tauxHoraire;
+        m.setSalaireRecu(m.getSalaireRecu() + salaire);
+        mRepo.update(m.getId(), m);
+    }
+
+    // === Register vehicle maintenance expense ===
+    public void enregistrerMaintenance(Maintenance m) {
+        maRepo.ajouter(m);
+    }
+
+    // === Register vehicle reparation expense ===
+    public void enregistrerReparation(Reparation r) {
+        rRepo.ajouter(r);
+    }
+
+    // === Compute and display monthly financial summary ===
+    public void afficherMois(int mois, int annee) {
+        double revenus = getTotalRevenus();
+        double salaires = getTotalSalaires();
+        double maintenances = getTotalMaintenance();
+        double reparations = getTotalReparations();
+
+        double depenses = salaires + maintenances + reparations;
+        double profit = revenus - depenses;
+
+        System.out.println("\n\nRevenus (Candidats) : " + revenus + " dt");
+        System.out.println("Salaires Moniteurs   : " + salaires + " dt");
+        System.out.println("Maintenance Vehicules: " + maintenances + " dt");
+        System.out.println("Réparations Vehicules: " + reparations + " dt");
+        System.out.println(">>> Profit: " + profit + " dt");
+
+    }
+    public double getTotalMaintenance() {
+        double total = 0;
+        for (Maintenance m : maRepo.getAll()) {
+            total += m.getCout();
         }
         return total;
     }
 
-    /**
-     * Record money received from ANY candidate
-     */
-    public void enregistrerRevenu(double montant) {
-        repo.add(new Comptabilite(
-                "revenu",
-                "candidat",
-                montant,
-                LocalDate.now()
-        ));
-    }
-
-    /**
-     * Generic expense: repairs, maintenance, equipment, etc.
-     */
-    public void enregistrerDepense(String categorie, double montant, LocalDate date) {
-        repo.add(new Comptabilite(
-                "depense",
-                categorie,
-                montant,
-                date
-        ));
-    }
-
-    /**
-     * Salary paid to a moniteur
-     */
-    public void salaireMoniteur(int idMoniteur, double montant) {
-        repo.add(new Comptabilite(
-                "depense",
-                "salaire_moniteur_" + idMoniteur,
-                montant,
-                LocalDate.now()
-        ));
-    }
-
-    /**
-     * Get the full accounting list
-     */
-    public Comptabilite[] getAll() {
-        return repo.getAll();
-    }
-
-    /**
-     * Show one month’s accounting
-     */
-    public void afficherMois(int mois, int annee) {
-
-        Comptabilite[] tab = repo.getAll();
-
-        double totalRevenus = 0;
-        double totalDepenses = 0;
-
-        System.out.println("\n===== Comptabilité du mois " + mois + "/" + annee + " =====");
-
-        for (Comptabilite c : tab) {
-
-            if (c.getDate().getMonthValue() == mois &&
-                c.getDate().getYear() == annee) {
-
-                System.out.println(
-                        c.getDate() + " | " +
-                        c.getType() + " | " +
-                        c.getCategorie() + " | " +
-                        c.getMontant() + " dt"
-                );
-
-                if (c.getType().equals("revenu")) {
-                    totalRevenus += c.getMontant();
-                } else {
-                    totalDepenses += c.getMontant();
-                }
-            }
+    public double getTotalReparations() {
+        double total = 0;
+        for (Reparation r : rRepo.getAll()) {
+            total += r.getCout();
         }
-
-        System.out.println("\nTotal revenus : " + totalRevenus + " dt");
-        System.out.println("Total dépenses : " + totalDepenses + " dt");
-        System.out.println(">>> Profit : " + (totalRevenus - totalDepenses) + " dt");
+        return total;
     }
+    public double getTotalSalaires() {
+        double total = 0;
+        for (Moniteur m : mRepo.getAll()) {
+            total += m.getSalaireBase(); // base
+            total += m.getNbHeuresTravaillees() * m.getPrixParHeure(); // extra per hour
+        }
+        return total;
+    }
+    public double getTotalRevenus() {
+        double total = 0;
+        for (Candidat c : cRepo.getAll()) {
+            total += c.getPaidAmount();
+        }
+        return total;
+    }
+
+
 }
