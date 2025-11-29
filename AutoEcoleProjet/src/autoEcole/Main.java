@@ -22,6 +22,10 @@ public class Main {
         return scanner.nextInt();
     }
 	public static void main(String[] args) {
+<<<<<<< HEAD
+		 
+	}	
+=======
 
 		
 		SeanceController s = new SeanceController();
@@ -168,5 +172,6 @@ public class Main {
 		
 	}
 		
+>>>>>>> branch 'master' of https://github.com/Lamis-inv/CPI2JavaProject.git
 
 }

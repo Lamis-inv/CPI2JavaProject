@@ -1,0 +1,16 @@
+<<<<<<< HEAD
+[
+  {
+    "numImmatricule": "12TUN455",
+    "dateMiseEnService": "2020-06-07",
+    "kilometrageTotal": 12000,
+    "kmAvantEntretien": 20,
+    "type": "moto",
+    "vignetteDerniereDate": "2024-01-01",
+    "assuranceDerniereDate": "2024-11-03",
+    "visiteTechniqueDerniereDate": "2024-11-03",
+    "vidangeDerniereDate": "2024-11-03"
+  }
+]
+=======
+>>>>>>> branch 'master' of https://github.com/Lamis-inv/CPI2JavaProject.git

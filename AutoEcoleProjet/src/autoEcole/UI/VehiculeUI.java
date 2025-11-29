@@ -11,10 +11,16 @@ import autoEcole.Entities.Reparation;
 
 public class VehiculeUI {
 
-    private final VehiculeController controller = new VehiculeController();
+    private VehiculeController controller = new VehiculeController();
     private final Scanner scanner = new Scanner(System.in);
+    
+    
 
-    public void lancerMenu() {
+    public VehiculeUI(VehiculeController controller) {
+		this.controller = controller;
+	}
+
+	public void lancerMenu() {
         boolean continuer = true;
         while (continuer) {
             System.out.println("\n===== Menu Véhicule =====");
@@ -44,11 +50,44 @@ public class VehiculeUI {
     }
 
     private void ajouterVehicule() {
-        System.out.println("\n--- Ajouter Véhicule ---");
-        System.out.print("Immatriculation : ");
-        String imm = scanner.nextLine();
-        System.out.print("Type : ");
-        String type = scanner.nextLine();
+        System.out.println("\n--- Ajouter une nouvelle Véhicule ---");
+
+        String imm;
+        do {
+            System.out.print("Immatricule : ");
+            imm = scanner.nextLine().trim();
+
+            if (!imm.matches("\\d{1,3}TUN\\d{1,4}")) {
+                System.out.println("Immatricule invalide !");
+            }
+        } while (!imm.matches("\\d{1,3}TUN\\d{1,4}"));
+        
+        String type = "";
+        int choix = -1;
+
+        do {
+            System.out.println("\nType du véhicule :");
+            System.out.println("1. Voiture");
+            System.out.println("2. Moto");
+            System.out.println("3. Camion");
+            System.out.println("4. Autobus");
+            System.out.print("Choisissez (1-4) : ");
+
+            try {
+                choix = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                choix = -1;
+            }
+
+            switch (choix) {
+                case 1 -> type = "voiture";
+                case 2 -> type = "moto";
+                case 3 -> type = "camion";
+                case 4 -> type = "autobus";
+                default -> System.out.println("Choix invalide !");
+            }
+
+        } while (choix < 1 || choix > 4);
         LocalDate dateMiseEnService = lireDate("Date mise en service (YYYY-MM-DD) : ");
         int kilometrageTotal = lireInt("Kilométrage total : ");
         int kmAvantEntretien = lireInt("Km avant entretien : ");
@@ -78,7 +117,7 @@ public class VehiculeUI {
     private void modifierVehicule() {
         System.out.print("\nImmatriculation du véhicule à modifier : ");
         String imm = scanner.nextLine();
-        Vehicule v = controller.getTous() == null ? null : controller.getTous()[0]; // Simplified retrieval
+        Vehicule v = controller.getTous() == null ? null : controller.getTous()[0]; // retrieval
         if (v == null) { System.out.println("Véhicule non trouvé !"); return; }
 
         System.out.println("Saisir les nouvelles informations :");
@@ -111,38 +150,119 @@ public class VehiculeUI {
     }
 
     private void ajouterMaintenance() {
+
         System.out.print("\nImmatriculation du véhicule : ");
         String imm = scanner.nextLine();
-        System.out.print("Description : ");
-        String desc = scanner.nextLine();
-        LocalDate date = lireDate("Date (YYYY-MM-DD) : ");
+
+        Vehicule v = controller.getVehicule(imm);
+        if (v == null) {
+            System.out.println("Véhicule introuvable !");
+            return;
+        }
+
+        System.out.println("\nType de maintenance :");
+        System.out.println("1. Vignette");
+        System.out.println("2. Assurance");
+        System.out.println("3. Visite Technique");
+        System.out.println("4. Vidange");
+        System.out.print("Choisissez (1-4) : ");
+
+        int choix;
+        try {
+            choix = Integer.parseInt(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Choix invalide !");
+            return;
+        }
+
+        String desc = switch (choix) {
+            case 1 -> "Vignette";
+            case 2 -> "Assurance";
+            case 3 -> "Visite Technique";
+            case 4 -> "Vidange";
+            default -> {
+                System.out.println("Choix invalide !");
+                yield null;
+            }
+        };
+        if (desc == null) return;
+
+        LocalDate date = lireDate("Date de la maintenance (YYYY-MM-DD) : ");
         double cout = lireDouble("Coût : ");
+
+        // Create the maintenance record
         Maintenance m = new Maintenance(imm, desc, date, cout);
         controller.ajouterMaintenance(m);
+
+        // Update the vehicle's internal dates
+        switch (choix) {
+            case 1 -> v.setVignetteDerniereDate(date);
+            case 2 -> v.setAssuranceDerniereDate(date);
+            case 3 -> v.setVisiteTechniqueDerniereDate(date);
+            case 4 -> {
+                v.setVidangeDerniereDate(date);
+                v.setKmAvantEntretien(20000); // reset example
+            }
+        }
+
+        controller.modifierVehicule(imm, v);
+
+        System.out.println("Maintenance ajoutée et véhicule mis à jour !");
     }
+
 
     private void ajouterReparation() {
+
         System.out.print("\nImmatriculation du véhicule : ");
         String imm = scanner.nextLine();
-        System.out.print("Description : ");
+
+        Vehicule v = controller.getVehicule(imm);
+        if (v == null) {
+            System.out.println("Véhicule introuvable !");
+            return;
+        }
+
+        System.out.print("Description de la réparation : ");
         String desc = scanner.nextLine();
-        LocalDate date = lireDate("Date (YYYY-MM-DD) : ");
+
+        LocalDate date = lireDate("Date de la réparation (YYYY-MM-DD) : ");
         double cout = lireDouble("Coût : ");
+
         Reparation r = new Reparation(imm, desc, date, cout);
         controller.ajouterReparation(r);
+
+        System.out.println("Réparation ajoutée !");
     }
 
-    // Méthodes utilitaires pour la saisie
-    private LocalDate lireDate(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            String input = scanner.nextLine();
-            try { return LocalDate.parse(input); }
-            catch (DateTimeParseException e) { System.out.println("Format invalide. Réessayez."); }
+
+    // verif date
+    private LocalDate lireDate(String message) {
+    	LocalDate date = null;
+        boolean valide = false;
+
+        while (!valide) {
+            System.out.print(message);
+            String input = scanner.nextLine().trim();
+
+            try {
+                // Try parsing using ISO format (YYYY-MM-DD)
+                date = LocalDate.parse(input);
+
+                // Check if the date is in the future
+                if (date.isAfter(LocalDate.now())) {
+                    System.out.println("La date ne peut pas être supérieure à aujourd'hui !");
+                } else {
+                    valide = true;
+                }
+
+            } catch (DateTimeParseException e) {
+                System.out.println("Format invalide ! Format attendu : YYYY-MM-DD");
+            }
         }
+        return date;
     }
 
-    //verif
+    //verif int and double
     private int lireInt(String prompt) {
         while (true) {
             System.out.print(prompt);
