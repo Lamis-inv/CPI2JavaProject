@@ -26,5 +26,19 @@
     "paidAmount": 54.0,
     "seances": [],
     "codeExamPassed": true
+  },
+  {
+    "nom": "Karina",
+    "prenom": "Yu",
+    "adresse": "SouthKorea",
+    "telephone": "578974232",
+    "cin": 14785698,
+    "typePermis": "C",
+    "nbSeanceCode": 1,
+    "nbSeanceConduite": 0,
+    "totalPrice": 15.0,
+    "paidAmount": 0.0,
+    "seances": [],
+    "codeExamPassed": false
   }
 ]

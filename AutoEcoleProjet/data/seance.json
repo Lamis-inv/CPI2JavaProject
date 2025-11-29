@@ -110,5 +110,33 @@
       "codeExamPassed": false
     },
     "prix": 15.0
+  },
+  {
+    "id": 6,
+    "type": "code",
+    "date": "2025-11-30",
+    "heure": "13:00:00",
+    "moniteur": {
+      "id": 14785,
+      "nom": "NingNing",
+      "isDisponible": true,
+      "nbHeuresTravaillees": 2,
+      "salaireBase": 600.0
+    },
+    "candidat": {
+      "nom": "Karina",
+      "prenom": "Yu",
+      "adresse": "SouthKorea",
+      "telephone": "578974232",
+      "cin": 14785698,
+      "typePermis": "C",
+      "nbSeanceCode": 1,
+      "nbSeanceConduite": 0,
+      "totalPrice": 15.0,
+      "paidAmount": 0.0,
+      "seances": [],
+      "codeExamPassed": false
+    },
+    "prix": 15.0
   }
 ]
