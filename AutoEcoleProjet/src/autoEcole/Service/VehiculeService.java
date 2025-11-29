@@ -115,6 +115,35 @@ public class VehiculeService {
             System.out.println("Vidange : OK (reste " + kmAvantEntretien + " km)");
     }
 
+    public void effectuerMaintenance(String imm, String description, LocalDate date, double cout) {
+        Vehicule v = vehiculeRepo.findByImmatriculation(imm);
+        if (v == null) {
+            System.out.println("Véhicule introuvable !");
+            return;
+        }
+
+        // Ajouter à l’historique
+        maintenanceRepo.ajouter(new Maintenance(imm, description, date, cout));
+
+        // Mettre à jour la date du véhicule en fonction du type de maintenance
+        switch (description.toLowerCase()) {
+            case "vignette" -> v.setVignetteDerniereDate(date);
+            case "assurance" -> v.setAssuranceDerniereDate(date);
+            case "visite technique" -> v.setVisiteTechniqueDerniereDate(date);
+            case "vidange" -> v.setVidangeDerniereDate(date);
+            default -> {
+                System.out.println("Maintenance ajoutée, mais non reconnue pour mise à jour automatique.");
+                vehiculeRepo.modifier(imm, v);
+                return;
+            }
+        }
+
+        // Sauvegarde
+        vehiculeRepo.modifier(imm, v);
+
+        System.out.println("Maintenance enregistrée et véhicule mis à jour !");
+    }
+
 
     public void ajouterMaintenance(Maintenance m) {
     	maintenanceRepo.ajouter(m); 
