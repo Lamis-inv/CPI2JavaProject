@@ -9,6 +9,7 @@ import autoEcole.UI.VehiculeUI;
 public class VehiculeController {
     private final VehiculeService service = new VehiculeService();
     private final VehiculeUI ui = new VehiculeUI(this);
+    
     public void init() {
     	ui.lancerMenu();
     }

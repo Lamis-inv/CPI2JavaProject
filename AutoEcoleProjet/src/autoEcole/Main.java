@@ -22,18 +22,12 @@ public class Main {
         return scanner.nextInt();
     }
 	public static void main(String[] args) {
-<<<<<<< HEAD
-		 
-	}	
-=======
 
-		
-		SeanceController s = new SeanceController();
+	SeanceController s = new SeanceController();
 		MoniteurController m =new MoniteurController();
 		CandidatController c = new CandidatController();
 		VehiculeController v= new VehiculeController();	
 		
-		///////////
 		 boolean loop = true;
 
 	        while (loop) {
@@ -53,7 +47,7 @@ public class Main {
 	                case 1 -> s.init();
 	                case 2 -> c.init();
 	                case 3 -> m.init();
-	                //case 4 -> v.init();
+	                case 4 -> v.init();
 	                case 5 -> planing();
 	                case 6 -> comptable();
 	                case 0 -> loop = false;
@@ -171,7 +165,5 @@ public class Main {
 		
 		
 	}
-		
->>>>>>> branch 'master' of https://github.com/Lamis-inv/CPI2JavaProject.git
 
 }

@@ -11,7 +11,7 @@ import autoEcole.Entities.Reparation;
 
 public class VehiculeUI {
 
-    private VehiculeController controller = new VehiculeController();
+    private VehiculeController controller ;
     private final Scanner scanner = new Scanner(System.in);
     
     
