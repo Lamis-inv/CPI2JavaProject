@@ -8,7 +8,8 @@
       "id": 123588,
       "nom": "Kim",
       "isDisponible": false,
-      "nbHeuresTravaillees": 6
+      "nbHeuresTravaillees": 6,
+      "salaireBase": 0.0
     },
     "candidat": {
       "nom": "ed",
@@ -35,7 +36,8 @@
       "id": 144445,
       "nom": "Lee",
       "isDisponible": false,
-      "nbHeuresTravaillees": 12
+      "nbHeuresTravaillees": 12,
+      "salaireBase": 0.0
     },
     "candidat": {
       "nom": "bejaoui",
@@ -62,7 +64,8 @@
       "id": 888,
       "nom": "jung",
       "isDisponible": false,
-      "nbHeuresTravaillees": 4
+      "nbHeuresTravaillees": 4,
+      "salaireBase": 0.0
     },
     "candidat": {
       "nom": "bejaoui",
@@ -81,30 +84,31 @@
     "prix": 15.0
   },
   {
-    "id": 4,
-    "type": "conduite",
+    "id": 5,
+    "type": "code",
     "date": "2025-11-30",
-    "heure": "13:00:00",
+    "heure": "09:00:00",
     "moniteur": {
-      "id": 123588,
-      "nom": "Kim",
+      "id": 144445,
+      "nom": "Lee",
       "isDisponible": false,
-      "nbHeuresTravaillees": 7
+      "nbHeuresTravaillees": 14,
+      "salaireBase": 600.0
     },
     "candidat": {
-      "nom": "bejaoui",
-      "prenom": "lamis",
-      "adresse": "jarzouna",
-      "telephone": "7895456",
-      "cin": 12345678,
-      "typePermis": "A",
-      "nbSeanceCode": 1,
-      "nbSeanceConduite": 1,
-      "totalPrice": 58.0,
-      "paidAmount": 9.0,
+      "nom": "ed",
+      "prenom": "sheeran",
+      "adresse": "london",
+      "telephone": "7894565",
+      "cin": 78945678,
+      "typePermis": "C",
+      "nbSeanceCode": 2,
+      "nbSeanceConduite": 0,
+      "totalPrice": 45.0,
+      "paidAmount": 5.0,
       "seances": [],
-      "codeExamPassed": true
+      "codeExamPassed": false
     },
-    "prix": 28.0
+    "prix": 15.0
   }
 ]

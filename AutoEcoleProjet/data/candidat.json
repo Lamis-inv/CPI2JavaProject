@@ -6,9 +6,9 @@
     "telephone": "7894565",
     "cin": 78945678,
     "typePermis": "C",
-    "nbSeanceCode": 0,
+    "nbSeanceCode": 2,
     "nbSeanceConduite": 0,
-    "totalPrice": 15.0,
+    "totalPrice": 45.0,
     "paidAmount": 5.0,
     "seances": [],
     "codeExamPassed": false
@@ -23,7 +23,7 @@
     "nbSeanceCode": 0,
     "nbSeanceConduite": 0,
     "totalPrice": 58.0,
-    "paidAmount": 49.0,
+    "paidAmount": 54.0,
     "seances": [],
     "codeExamPassed": true
   }

@@ -73,116 +73,102 @@ public class SeanceUI {
         }
         return scanner.nextDouble();
     }
+    private int generateSeanceId() {
+        Seance[] all = controller.getAll();
+        int maxId = 0;
+        for (Seance s : all) {
+            if (s != null && s.getId() > maxId) {
+                maxId = s.getId();
+            }
+        }
+        return maxId + 1; // next unique ID
+    }
 
 
     public void saisir() {
-        scanner.nextLine(); // clean \n
+        scanner.nextLine(); // clean newline
 
-        // --- Auto-generate ID ---
-        int id = controller.getAll().length + 1;
+        int id = generateSeanceId();
         System.out.println("Generated Seance ID = " + id);
 
-        // --- Choose Seance Type ---
+        // Choose type
         String type = "";
         while (true) {
-            System.out.println("Choose Seance Type:");
-            System.out.println("1. Conduite");
-            System.out.println("2. Code");
-            System.out.print("Your choice: ");
-
+            System.out.println("Choose Seance Type: \n1. Conduite\n2. Code");
             int ch = getIntInput();
             scanner.nextLine();
-
             if (ch == 1) type = "conduite";
             else if (ch == 2) type = "code";
-            else {
-                System.out.println("Invalid choice. Try again.");
-                continue;
-            }
+            else { System.out.println("Invalid choice."); continue; }
             break;
         }
 
-        // --- Pick date ---
+        // Pick date and time
+        LocalDate date = getDateFromUser();
+        LocalTime heure = getTimeFromUser(date);
+
+        // Pick moniteur and candidat
+        Moniteur moniteur = chooseMoniteur(date, heure, id);
+        Candidat candidat = chooseCandidat(type, date, heure, id);
+
+        // Pick vehicle only for conduite
+        Vehicule vehicule = type.equals("conduite") ? chooseVehicule(type) : null;
+
+        // Calculate price
+        double prix = type.equals("code") ? candidat.getTypePermis().getPrixCode()
+                                          : candidat.getTypePermis().getPrixConduite();
+
+        // Create seance
+        Seance s = new Seance(id, type, date, heure, moniteur, candidat, prix, vehicule);
+
+        // Call service to handle rules
+        try {
+            controller.add(s); // controller -> service -> repository
+            System.out.println(" Seance added successfully!");
+        } catch (IllegalArgumentException e) {
+            System.out.println(" " + e.getMessage());
+        }
+    }
+
+
+   
+    private LocalDate getDateFromUser() {
         LocalDate date = null;
         while (date == null) {
             System.out.print("Enter date (YYYY-MM-DD): ");
             try {
                 LocalDate d = LocalDate.parse(scanner.nextLine());
                 if (d.isBefore(LocalDate.now())) {
-                    System.out.println("❌ Date cannot be in the past.");
+                    System.out.println(" Date cannot be in the past.");
                 } else {
                     date = d;
                 }
             } catch (Exception e) {
-                System.out.println("❌ Invalid date format.");
+                System.out.println(" Invalid date format.");
             }
         }
-
-        // --- Pick time ---
-        LocalTime heure = null;
-        while (heure == null) {
-            System.out.print("Enter heure (HH:MM) between 08:00 and 18:00: ");
-            try {
-                LocalTime temp = LocalTime.parse(scanner.nextLine());
-                if (temp.isBefore(LocalTime.of(8, 0)) || temp.isAfter(LocalTime.of(18, 0))) {
-                    System.out.println("❌ Time must be between 08:00 and 18:00.");
-                    continue;
-                }
-                if (date.equals(LocalDate.now()) && temp.isBefore(LocalTime.now())) {
-                    System.out.println("❌ You cannot schedule a past hour today.");
-                    continue;
-                }
-                heure = temp;
-            } catch (Exception e) {
-                System.out.println("❌ Invalid format. Use HH:MM.");
-            }
-        }
-
-        // --- Choose Moniteur ---
-        Moniteur moniteur = chooseMoniteur(date, heure, id);
-
-        // --- Choose Candidat ---
-        Candidat candidat = null;
-        while (candidat == null) {
-            candidat = chooseCandidat(type, date, heure, id);
-            if (candidat == null) {
-                System.out.println("Please select a valid candidate.");
-            }
-        }
-
-        // --- Prevent conduite if code not passed ---
-        if (type.equalsIgnoreCase("conduite") && !candidat.getCodeExamPassed()) {
-            System.out.println("❌ Candidate cannot take a driving lesson before passing the code exam.");
-            return; // cancel seance creation
-        }
-
-        // --- Choose Vehicle ---
-        Vehicule vehicule = chooseVehicule(type);
-
-        // --- Auto-calculate price ---
-        double prix = type.equalsIgnoreCase("code") ?
-                      candidat.getTypePermis().getPrixCode() :
-                      candidat.getTypePermis().getPrixConduite();
-
-     // --- Increment counts and update totalPrice BEFORE creating Seance ---
-        if (type.equalsIgnoreCase("code")) {
-            candidat.addCodeSession();
-        } else {
-            candidat.addConduiteSession();
-        }
-
-        candidatRepo.update(candidat.getCin(), candidat);
-
-
-        // --- Now create Seance with updated candidate ---
-        Seance s = new Seance(id, type, date, heure, moniteur, candidat, prix, vehicule);
-        controller.add(s);
-
-
-        System.out.println("Seance added successfully!");
+        return date;
     }
 
-   
+    private LocalTime getTimeFromUser(LocalDate date) {
+        LocalTime heure = null;
+        while (heure == null) {
+            System.out.print("Enter time (HH:MM) between 08:00 and 18:00: ");
+            try {
+                LocalTime t = LocalTime.parse(scanner.nextLine());
+                if (t.isBefore(LocalTime.of(8, 0)) || t.isAfter(LocalTime.of(18, 0))) {
+                    System.out.println(" Time must be between 08:00 and 18:00.");
+                } else if (date.equals(LocalDate.now()) && t.isBefore(LocalTime.now())) {
+                    System.out.println(" Cannot schedule a past time today.");
+                } else {
+                    heure = t;
+                }
+            } catch (Exception e) {
+                System.out.println(" Invalid time format.");
+            }
+        }
+        return heure;
+    }
 
 
     private Candidat chooseCandidat(String type, LocalDate date, LocalTime heure, int excludeId) {

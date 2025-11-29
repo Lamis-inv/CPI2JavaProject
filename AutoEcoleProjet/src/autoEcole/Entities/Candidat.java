@@ -95,6 +95,7 @@ public class Candidat {
 		this.seances = seances;
 		this.codeExamPassed = false;
 	}
+	
 	public void addCodeSession() {
 	    nbSeanceCode++;
 	    totalPrice += typePermis.getPrixCode();

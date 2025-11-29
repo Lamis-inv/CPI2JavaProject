@@ -19,7 +19,6 @@ public class SeanceController {
         return service.getAll();
     }
 
-
     public void findAll() {
         service.findAll();
     }
