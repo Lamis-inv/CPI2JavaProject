@@ -5,9 +5,20 @@
     "kilometrageTotal": 12000,
     "kmAvantEntretien": 20,
     "type": "moto",
-    "vignetteDerniereDate": "2024-01-01",
+    "vignetteDerniereDate": "2025-11-01",
     "assuranceDerniereDate": "2024-11-03",
     "visiteTechniqueDerniereDate": "2024-11-03",
     "vidangeDerniereDate": "2024-11-03"
+  },
+  {
+    "numImmatricule": "111TUN1111",
+    "dateMiseEnService": "2002-03-06",
+    "kilometrageTotal": 12000,
+    "kmAvantEntretien": 10,
+    "type": "voiture",
+    "vignetteDerniereDate": "2002-03-06",
+    "assuranceDerniereDate": "2002-03-06",
+    "visiteTechniqueDerniereDate": "2002-03-06",
+    "vidangeDerniereDate": "2002-03-06"
   }
 ]
