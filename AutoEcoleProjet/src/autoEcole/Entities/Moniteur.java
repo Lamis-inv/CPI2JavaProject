@@ -57,7 +57,9 @@ public class Moniteur {
     	}
     public void setSalaireBase(double salaireBase) { this.salaireBase = salaireBase; }
 
-    public double getSalaireRecu() { return salaireRecu; }
+    public double getSalaireRecu() { 
+    	return salaireRecu; 
+    	}
     public void setSalaireRecu(double salaireRecu) { 
     	this.salaireRecu = salaireRecu;
     	}

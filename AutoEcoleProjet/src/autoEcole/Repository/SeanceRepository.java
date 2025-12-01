@@ -133,7 +133,7 @@ public class SeanceRepository {
 		        System.out.println("Candidat: " + c.getCandidat().getNom()+" "+c.getCandidat().getPrenom());
 		        System.out.println("Vehicule: " + c.getVehicule().getNumImmatricule());
 		        System.out.println("Prix: " + c.getPrix());
-	            return; // Stop after printing one
+	            return; 
 	        }
 	    }
 

@@ -21,12 +21,10 @@ public class SeanceService{
         Candidat c = s.getCandidat();
         Moniteur m = s.getMoniteur();
 
-        // Rule: Candidate must pass code exam before conduite
         if (s.getType().equalsIgnoreCase("conduite") && !c.getCodeExamPassed()) {
             throw new IllegalArgumentException("Candidate must pass code exam before driving lessons.");
         }
 
-        // Rule: Increment sessions and total price
         if (s.getType().equalsIgnoreCase("code")) {
             c.addCodeSession();
         } else {
@@ -34,11 +32,8 @@ public class SeanceService{
         }
         candidatRepo.update(c.getCin(), c);
 
-        // Rule: Increment moniteur hours
         m.setNbHeuresTravaillees(m.getNbHeuresTravaillees() + 1);
         moniteurRepo.update(m.getId(), m);
-
-        // Save seance
         seanceRepo.add(s);
     }
 

@@ -123,7 +123,7 @@ public class SeanceUI {
 
         // Call service to handle rules
         try {
-            controller.add(s); // controller -> service -> repository
+            controller.add(s); 
             System.out.println(" Seance added successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println(" " + e.getMessage());
@@ -215,7 +215,6 @@ public class SeanceUI {
             int choice = getIntInput();
             if (choice >= 1 && choice <= available.length) {
                 chosen = available[choice - 1];
-                chosen.setNbHeuresTravaillees(chosen.getNbHeuresTravaillees() + 1);
                 moniteurRepo.update(chosen.getId(), chosen);
             } else {
                 System.out.print("Invalid choice. Choose again: ");
@@ -291,7 +290,7 @@ public class SeanceUI {
         }
 
         boolean loop = true;
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
 
         while (loop) {
             System.out.println("\n===== Update Seance Menu =====");
@@ -306,7 +305,7 @@ public class SeanceUI {
             System.out.print("Choose an option: ");
 
             int choice = getIntInput();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1 -> {
@@ -317,10 +316,10 @@ public class SeanceUI {
                     scanner.nextLine();
                     if (ch == 1) {
                         old.setType("conduite");
-                        old.setPrix(100); // auto set price
+                        old.setPrix(100); 
                     } else if (ch == 2) {
                         old.setType("code");
-                        old.setPrix(50); // auto set price
+                        old.setPrix(50); 
                     } else {
                         System.out.println("Invalid choice!");
                     }
