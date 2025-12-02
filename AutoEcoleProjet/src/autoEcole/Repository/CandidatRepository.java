@@ -92,6 +92,8 @@ public class CandidatRepository {
 	        		+ " " + tab[i].getHeure() + " | Prix: " + tab[i].getPrix());
 	            }
 	        }
+	        System.out.println("Code Exam Passed : " + c.getCodeExamPassed());
+		    System.out.println("Conduit Exam Passed : " + c.getConduitExamPassed());
 	    }
 	}
 
@@ -157,6 +159,8 @@ public class CandidatRepository {
 	            System.out.println("  - " + s.getType() + " | " + s.getDate() + " " + s.getHeure() + " | Prix: " + s.getPrix());
 	        }
 	    }
+	    System.out.println("Code Exam Passed : " + c.getCodeExamPassed());
+	    System.out.println("Conduit Exam Passed : " + c.getConduitExamPassed());
 	}
 
 

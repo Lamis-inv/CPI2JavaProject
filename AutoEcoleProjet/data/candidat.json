@@ -11,7 +11,8 @@
     "totalPrice": 15.0,
     "paidAmount": 0.0,
     "seances": [],
-    "codeExamPassed": false
+    "codeExamPassed": false,
+    "conduitExamPassed": false
   },
   {
     "nom": "Bejaoui",
@@ -25,7 +26,8 @@
     "totalPrice": 15.0,
     "paidAmount": 0.0,
     "seances": [],
-    "codeExamPassed": false
+    "codeExamPassed": false,
+    "conduitExamPassed": false
   },
   {
     "nom": "Sponge",
@@ -39,7 +41,8 @@
     "totalPrice": 15.0,
     "paidAmount": 3.0,
     "seances": [],
-    "codeExamPassed": false
+    "codeExamPassed": false,
+    "conduitExamPassed": false
   },
   {
     "nom": "Titans",
@@ -53,7 +56,8 @@
     "totalPrice": 30.0,
     "paidAmount": 30.0,
     "seances": [],
-    "codeExamPassed": true
+    "codeExamPassed": true,
+    "conduitExamPassed": false
   },
   {
     "nom": "Michael",
@@ -67,6 +71,7 @@
     "totalPrice": 15.0,
     "paidAmount": 10.0,
     "seances": [],
-    "codeExamPassed": false
+    "codeExamPassed": false,
+    "conduitExamPassed": true
   }
 ]

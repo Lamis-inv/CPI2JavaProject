@@ -66,6 +66,7 @@ public class CandidatService {
 
 	    // Preserve code exam status
 	    updated.setCodeExamPassed(c.getCodeExamPassed());
+	    updated.setConduitExamPassed(c.getConduitExamPassed());
 
 	    cRepository.update(cin, updated);
 	    System.out.println("Candidate updated successfully!");

@@ -125,6 +125,7 @@ public class CandidatUI {
 	        System.out.println("5. Update Type Permis");
 	        System.out.println("6. Update Amount Paid");
 	        System.out.println("7. Mark code exam as passed");
+	        System.out.println("8. Mark conduit exam as passed");
 	        System.out.println("0. Save and Exit");
 	        System.out.print("Choose: ");
 
@@ -171,6 +172,9 @@ public class CandidatUI {
 	            case 7:
 	                markCodeExamPassed(old);
 	                break;
+	            case 8:
+	                markConduitExamPassed(old);
+	                break;
 
 	            case 0:
 	                controller.update(cin, old);
@@ -187,6 +191,11 @@ public class CandidatUI {
 	public void markCodeExamPassed(Candidat candidat) {
 	    candidat.setCodeExamPassed(true);
 	    System.out.println(" Candidate has passed the code exam!");
+	}
+	
+	public void markConduitExamPassed(Candidat candidat) {
+		candidat.setConduitExamPassed(true);
+	    System.out.println(" Candidate has passed the Conduit exam!");
 	}
 
 	

@@ -13,6 +13,7 @@ public class Candidat {
     private double paidAmount;
     private Seance[] seances;
     private boolean codeExamPassed;
+    private boolean conduitExamPassed;
 
     
     public boolean isCodeExamPassed() {
@@ -24,6 +25,16 @@ public class Candidat {
 
     public void setCodeExamPassed(boolean codeExamPassed) {
         this.codeExamPassed = codeExamPassed;
+    }
+    public boolean isConduitExamPassed() {
+        return conduitExamPassed;
+    }
+    public boolean getConduitExamPassed() {
+        return conduitExamPassed;
+    }
+
+    public void setConduitExamPassed(boolean conduitExamPassed) {
+        this.conduitExamPassed = conduitExamPassed;
     }
 
 	public String getNom() {
@@ -76,7 +87,8 @@ public class Candidat {
 	    this.totalPrice = totalPrice;
 	    this.paidAmount = paidAmount;
 	    this.seances = seances;
-	    this.codeExamPassed = false; // add here
+	    this.codeExamPassed = false;
+	    this.conduitExamPassed=false;
 	}
 
 	public Candidat(String nom, String prenom, String adresse, String telephone, int cin, TypesPermit typePermis,
@@ -94,6 +106,7 @@ public class Candidat {
 		this.paidAmount = paidAmount;
 		this.seances = seances;
 		this.codeExamPassed = false;
+		this.conduitExamPassed=false;
 	}
 	
 	public void addCodeSession() {
