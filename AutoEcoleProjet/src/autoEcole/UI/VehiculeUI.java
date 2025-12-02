@@ -125,7 +125,14 @@ public class VehiculeUI {
         String type = scanner.nextLine();
         LocalDate dateMiseEnService = lireDate("Date mise en service (YYYY-MM-DD) : ");
         int kilometrageTotal = lireInt("Kilométrage total : ");
+        while(kilometrageTotal<0) {
+        	kilometrageTotal = lireInt("Kilométrage total : ");
+        }
+        
         int kmAvantEntretien = lireInt("Km avant entretien : ");
+        while(kmAvantEntretien<0) {
+        	kmAvantEntretien = lireInt("Km avant entretien : ");
+        }
         LocalDate vignette = lireDate("Échéance vignette (YYYY-MM-DD) : ");
         LocalDate assurance = lireDate("Échéance assurance (YYYY-MM-DD) : ");
         LocalDate visiteTech = lireDate("Échéance visite technique (YYYY-MM-DD) : ");
@@ -188,20 +195,23 @@ public class VehiculeUI {
         if (desc == null) return;
 
         LocalDate date = lireDate("Date de la maintenance (YYYY-MM-DD) : ");
-        double cout = lireDouble("Coût : ");
+        double cout= lireDouble("Coût : ");
+        while(cout<0.0) {
+        	cout= lireDouble("Coût : ");
+        }
 
         // Create the maintenance record
         Maintenance m = new Maintenance(imm, desc, date, cout);
         controller.ajouterMaintenance(m);
 
-        // Update the vehicle's internal dates
+        // Update the vehicle's dates
         switch (choix) {
             case 1 -> v.setVignetteDerniereDate(date);
             case 2 -> v.setAssuranceDerniereDate(date);
             case 3 -> v.setVisiteTechniqueDerniereDate(date);
             case 4 -> {
                 v.setVidangeDerniereDate(date);
-                v.setKmAvantEntretien(20000); // reset example
+                v.setKmAvantEntretien(20000);
             }
         }
 
@@ -226,7 +236,10 @@ public class VehiculeUI {
         String desc = scanner.nextLine();
 
         LocalDate date = lireDate("Date de la réparation (YYYY-MM-DD) : ");
-        double cout = lireDouble("Coût : ");
+        double cout= lireDouble("Coût : ");
+        while(cout<0.0) {
+        	cout= lireDouble("Coût : ");
+        }
 
         Reparation r = new Reparation(imm, desc, date, cout);
         controller.ajouterReparation(r);
@@ -245,7 +258,7 @@ public class VehiculeUI {
             String input = scanner.nextLine().trim();
 
             try {
-                // Try parsing using ISO format (YYYY-MM-DD)
+                // Try parsing format (YYYY-MM-DD)
                 date = LocalDate.parse(input);
 
                 // Check if the date is in the future
